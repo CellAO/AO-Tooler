@@ -35,11 +35,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("AO-Tooler")]
+[assembly: AssemblyTitle("AOInject")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AO-Tooler")]
+[assembly: AssemblyProduct("AOInject")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -52,7 +52,7 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 
-[assembly: Guid("0cbee708-f4e3-4a77-a113-4f4f06233bf6")]
+[assembly: Guid("033a68a0-2c66-4a31-bb44-40be53752d95")]
 
 // Version information for an assembly consists of the following four values:
 //      Major Version

@@ -24,44 +24,71 @@
 
 #endregion
 
-#region Usings ...
+namespace AOTooler
+{
+    #region Usings ...
 
-using System.Reflection;
-using System.Runtime.InteropServices;
+    using System;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Windows.Forms;
 
-#endregion
+    using AOTooler.Hook;
 
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
+    #endregion
 
-[assembly: AssemblyTitle("AO-Tooler")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AO-Tooler")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+    /// <summary>
+    /// </summary>
+    public partial class MainWindow : Form
+    {
+        #region Constructors and Destructors
 
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
-// COM, set the ComVisible attribute to true on that type.
+        /// <summary>
+        /// </summary>
+        public MainWindow()
+        {
+            this.InitializeComponent();
+        }
 
-[assembly: ComVisible(false)]
+        #endregion
 
-// The following GUID is for the ID of the typelib if this project is exposed to COM
+        #region Public Methods and Operators
 
-[assembly: Guid("0cbee708-f4e3-4a77-a113-4f4f06233bf6")]
+        /// <summary>
+        /// </summary>
+        /// <param name="data">
+        /// </param>
+        public static void Enqueue(byte[][] data)
+        {
+        }
 
-// Version information for an assembly consists of the following four values:
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
+        #endregion
 
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+        #region Methods
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        private void ConnectTimer_Tick(object sender, EventArgs e)
+        {
+            this.ConnectTimer.Enabled = false;
+            Process[] processes = Process.GetProcessesByName("anarchyonline");
+            if (processes.Count() == 0)
+            {
+                this.ConnectTimer.Enabled = true;
+                return;
+            }
+
+            if (AOHook.Inject(processes[0].Id))
+            {
+                this.connectedLabel.Text = "Connected [" + processes[0].Id + "]";
+                this.statusLabel.Text = "Connected to Anarchy Online client";
+            }
+        }
+
+        #endregion
+    }
+}
