@@ -12,7 +12,7 @@ namespace Script.Scripts.Mission_Control
 {
     using WeifenLuo.WinFormsUI.Docking;
 
-    public partial class MissionControl : DockContent
+    public partial class MissionControl : DockContent, IAOToolerScript
     {
         public MissionControl()
         {

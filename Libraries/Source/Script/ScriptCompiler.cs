@@ -49,12 +49,16 @@ namespace Script
 
         /// <summary>
         /// </summary>
-        private readonly CodeDomProvider compiler =
-            new CSharpCodeProvider(new Dictionary<string, string> { { "CompilerVersion", "v4.0" } });
+        public readonly List<Assembly> multipleDllList = new List<Assembly>();
 
         /// <summary>
         /// </summary>
-        private readonly List<Assembly> multipleDllList = new List<Assembly>();
+        public readonly Dictionary<string, Type> scriptList = new Dictionary<string, Type>();
+
+        /// <summary>
+        /// </summary>
+        private readonly CodeDomProvider compiler =
+            new CSharpCodeProvider(new Dictionary<string, string> { { "CompilerVersion", "v4.0" } });
 
         /// <summary>
         /// </summary>
@@ -63,7 +67,7 @@ namespace Script
                                                     GenerateInMemory = false, 
                                                     GenerateExecutable = false, 
                                                     IncludeDebugInformation = true, 
-                                                    OutputAssembly = "Scripts.dll", 
+                                                    OutputAssembly = "Docks.dll", 
 
                                                     // TODO: Figure out how to parse the file and return the usings, then load those.
                                                     ReferencedAssemblies =
@@ -71,7 +75,14 @@ namespace Script
                                                         "System.dll", 
                                                         "System.Core.dll", 
                                                         "System.Data.dll", 
+                                                        "System.Drawing.dll", 
                                                         "System.Windows.Forms.dll", 
+                                                        Path.Combine(
+                                                            Path
+                                                            .GetDirectoryName(
+                                                                Application
+                                                            .ExecutablePath), 
+                                                            "Script.dll"), 
                                                         Path.Combine(
                                                             Path
                                                             .GetDirectoryName(
@@ -89,10 +100,6 @@ namespace Script
                                                     WarningLevel = 3, 
                                                     CompilerOptions = "/optimize"
                                                 };
-
-        /// <summary>
-        /// </summary>
-        private readonly Dictionary<string, Type> scriptList = new Dictionary<string, Type>();
 
         #endregion
 
@@ -176,6 +183,66 @@ namespace Script
         }
 
         /// <summary>
+        /// Loads all classes contained in our
+        /// Assembly file that publically inherit
+        /// our IAOScript class.
+        /// Entry point for each script is public void Main(string[] args){}
+        /// </summary>
+        /// <param name="script">
+        /// Our .NET dll or exe file.
+        /// </param>
+        /// <returns>
+        /// </returns>
+        public static IAOToolerScript RunScript(Assembly script)
+        {
+            // Now that we have a compiled script, lets run them
+            foreach (Type type in script.GetExportedTypes())
+            {
+                // returns all public types in the asembly
+                foreach (Type iface in type.GetInterfaces())
+                {
+                    if (iface.FullName == typeof(IAOToolerScript).FullName)
+                    {
+                        // yay, we found a script interface, lets create it and run it!
+                        // Get the constructor for the current type
+                        // you can also specify what creation parameter types you want to pass to it,
+                        // so you could possibly pass in data it might need, or a class that it can use to query the host application
+                        ConstructorInfo constructor = type.GetConstructor(Type.EmptyTypes);
+                        if (constructor != null && constructor.IsPublic)
+                        {
+                            // lets be friendly and only do things legitimitely by only using valid constructors
+
+                            // we specified that we wanted a constructor that doesn't take parameters, so don't pass parameters
+                            IAOToolerScript scriptObject = constructor.Invoke(null) as IAOToolerScript;
+                            if (scriptObject != null)
+                            {
+                                // Lets run our script and display its results
+                                scriptObject.Initialize(null);
+                                return scriptObject;
+                            }
+                            else
+                            {
+                                // hmmm, for some reason it didn't create the object
+                                // this shouldn't happen, as we have been doing checks all along, but we should
+                                // inform the user something bad has happened, and possibly request them to send
+                                // you the script so you can debug this problem
+                                MessageBox.Show("Error: Script not loaded.");
+                            }
+                        }
+                        else
+                        {
+                            // and even more friendly and explain that there was no valid constructor
+                            // found and thats why this script object wasn't run
+                            MessageBox.Show("Error: No valid constructor found.");
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// </summary>
         /// <returns>
         /// </returns>
@@ -226,7 +293,7 @@ namespace Script
         /// </returns>
         public bool Compile(bool multipleFiles)
         {
-            string[] scriptFolders = Directory.GetDirectories("Scripts", "*.*", SearchOption.TopDirectoryOnly);
+            string[] scriptFolders = Directory.GetDirectories("Docks", "*.*", SearchOption.TopDirectoryOnly);
 
             foreach (string scriptFolder in scriptFolders)
             {
@@ -263,12 +330,6 @@ namespace Script
 
                     // Add the compiled assembly to our list
                     this.multipleDllList.Add(Assembly.LoadFile(file.FullName));
-
-                    // Ok all good, load em
-                    foreach (Assembly a in this.multipleDllList)
-                    {
-                        RunScript(a);
-                    }
                 }
             }
 
@@ -324,61 +385,6 @@ namespace Script
             }
 
             return report.ToString();
-        }
-
-        /// <summary>
-        /// Loads all classes contained in our
-        /// Assembly file that publically inherit
-        /// our IAOScript class.
-        /// Entry point for each script is public void Main(string[] args){}
-        /// </summary>
-        /// <param name="script">
-        /// Our .NET dll or exe file.
-        /// </param>
-        private static void RunScript(Assembly script)
-        {
-            // Now that we have a compiled script, lets run them
-            foreach (Type type in script.GetExportedTypes())
-            {
-                // returns all public types in the asembly
-                foreach (Type iface in type.GetInterfaces())
-                {
-                    if (iface.FullName == typeof(IAOToolerScript).FullName)
-                    {
-                        // yay, we found a script interface, lets create it and run it!
-                        // Get the constructor for the current type
-                        // you can also specify what creation parameter types you want to pass to it,
-                        // so you could possibly pass in data it might need, or a class that it can use to query the host application
-                        ConstructorInfo constructor = type.GetConstructor(Type.EmptyTypes);
-                        if (constructor != null && constructor.IsPublic)
-                        {
-                            // lets be friendly and only do things legitimitely by only using valid constructors
-
-                            // we specified that we wanted a constructor that doesn't take parameters, so don't pass parameters
-                            IAOToolerScript scriptObject = constructor.Invoke(null) as IAOToolerScript;
-                            if (scriptObject != null)
-                            {
-                                // Lets run our script and display its results
-                                scriptObject.Initialize(null);
-                            }
-                            else
-                            {
-                                // hmmm, for some reason it didn't create the object
-                                // this shouldn't happen, as we have been doing checks all along, but we should
-                                // inform the user something bad has happened, and possibly request them to send
-                                // you the script so you can debug this problem
-                                MessageBox.Show("Error: Script not loaded.");
-                            }
-                        }
-                        else
-                        {
-                            // and even more friendly and explain that there was no valid constructor
-                            // found and thats why this script object wasn't run
-                            MessageBox.Show("Error: No valid constructor found.");
-                        }
-                    }
-                }
-            }
         }
 
         /// <summary>

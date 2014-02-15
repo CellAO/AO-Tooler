@@ -24,13 +24,15 @@
 
 #endregion
 
-namespace Script
+namespace Script.Scripts.ExampleDock
 {
     #region Usings ...
 
+    using System;
     using System.Collections.Generic;
 
     using SmokeLounge.AOtomation.Messaging.Messages;
+    using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
 
     using WeifenLuo.WinFormsUI.Docking;
 
@@ -38,27 +40,48 @@ namespace Script
 
     /// <summary>
     /// </summary>
-    public interface IAOToolerScript : IDockContent
+    public partial class ExampleDock : DockContent, IAOToolerScript
     {
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// </summary>
+        public ExampleDock()
+        {
+            this.InitializeComponent();
+        }
+
+        #endregion
+
         #region Public Methods and Operators
 
         /// <summary>
         /// </summary>
         /// <returns>
         /// </returns>
-        List<N3MessageType> GetPacketWatcherList();
+        public List<N3MessageType> GetPacketWatcherList()
+        {
+            List<N3MessageType> types = new List<N3MessageType>() { N3MessageType.CharDCMove };
+            return types;
+        }
 
         /// <summary>
         /// </summary>
         /// <param name="args">
         /// </param>
-        void Initialize(string[] args);
+        public void Initialize(string[] args)
+        {
+            this.textBox1.Text = string.Empty;
+        }
 
         /// <summary>
         /// </summary>
         /// <returns>
         /// </returns>
-        DockState PreferredDockState();
+        public DockState PreferredDockState()
+        {
+            return DockState.DockLeft;
+        }
 
         /// <summary>
         /// </summary>
@@ -66,7 +89,18 @@ namespace Script
         /// </param>
         /// <param name="message">
         /// </param>
-        void PushPacket(N3MessageType type, N3Message message);
+        public void PushPacket(N3MessageType type, N3Message message)
+        {
+            switch (type)
+            {
+                case N3MessageType.CharDCMove:
+                    CharDCMoveMessage moveMessage = (CharDCMoveMessage)message;
+                    this.textBox1.Text = "X: " + moveMessage.Coordinates.X.ToString("0.0") + Environment.NewLine + "Y: "
+                                         + moveMessage.Coordinates.Y.ToString("0.0") + Environment.NewLine + "Z: "
+                                         + moveMessage.Coordinates.Z.ToString("0.0");
+                    break;
+            }
+        }
 
         #endregion
     }

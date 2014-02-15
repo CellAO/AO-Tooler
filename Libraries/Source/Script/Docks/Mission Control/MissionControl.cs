@@ -24,7 +24,7 @@
 
 #endregion
 
-namespace Script
+namespace Script.Scripts.Mission_Control
 {
     #region Usings ...
 
@@ -38,27 +38,47 @@ namespace Script
 
     /// <summary>
     /// </summary>
-    public interface IAOToolerScript : IDockContent
+    public partial class MissionControl : DockContent, IAOToolerScript
     {
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// </summary>
+        public MissionControl()
+        {
+            this.InitializeComponent();
+        }
+
+        #endregion
+
         #region Public Methods and Operators
 
         /// <summary>
         /// </summary>
         /// <returns>
         /// </returns>
-        List<N3MessageType> GetPacketWatcherList();
+        public List<N3MessageType> GetPacketWatcherList()
+        {
+            List<N3MessageType> types = new List<N3MessageType>() { };
+            return types;
+        }
 
         /// <summary>
         /// </summary>
         /// <param name="args">
         /// </param>
-        void Initialize(string[] args);
+        public void Initialize(string[] args)
+        {
+        }
 
         /// <summary>
         /// </summary>
         /// <returns>
         /// </returns>
-        DockState PreferredDockState();
+        public DockState PreferredDockState()
+        {
+            return DockState.DockRightAutoHide;
+        }
 
         /// <summary>
         /// </summary>
@@ -66,7 +86,9 @@ namespace Script
         /// </param>
         /// <param name="message">
         /// </param>
-        void PushPacket(N3MessageType type, N3Message message);
+        public void PushPacket(N3MessageType type, N3Message message)
+        {
+        }
 
         #endregion
     }

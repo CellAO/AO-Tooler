@@ -29,13 +29,23 @@ namespace AOTooler
     #region Usings ...
 
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
+    using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Windows.Forms;
 
     using AOTooler.Hook;
 
     using Script;
+
+    using SmokeLounge.AOtomation.Messaging.Messages;
+    using SmokeLounge.AOtomation.Messaging.Serialization;
+
+    using WeifenLuo.WinFormsUI.Docking;
+
+    using Message = SmokeLounge.AOtomation.Messaging.Messages.Message;
 
     #endregion
 
@@ -43,16 +53,39 @@ namespace AOTooler
     /// </summary>
     public partial class MainWindow : Form
     {
-        #region Constructors and Destructors
+        #region Static Fields
 
+        /// <summary>
+        /// </summary>
+        private static Stack<Message> messageStack = new Stack<Message>();
+
+        /// <summary>
+        /// </summary>
+        private static MessageSerializer serializer;
+
+        #endregion
+
+        #region Fields
+
+        /// <summary>
+        /// </summary>
         private ScriptCompiler CSC = new ScriptCompiler();
+
+        /// <summary>
+        /// </summary>
+        private Dictionary<IAOToolerScript, List<N3MessageType>> DockWatch =
+            new Dictionary<IAOToolerScript, List<N3MessageType>>();
+
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>
         /// </summary>
         public MainWindow()
         {
             this.InitializeComponent();
-            CSC.Compile(true);
+            serializer = new MessageSerializer();
         }
 
         #endregion
@@ -65,6 +98,16 @@ namespace AOTooler
         /// </param>
         public static void Enqueue(byte[][] data)
         {
+            lock (messageStack)
+            {
+                foreach (byte[] packetBytes in data)
+                {
+                    MemoryStream ms = new MemoryStream(packetBytes);
+                    Message mess = serializer.Deserialize(ms);
+                    messageStack.Push(mess);
+                    ms.Close();
+                }
+            }
         }
 
         #endregion
@@ -77,7 +120,7 @@ namespace AOTooler
         /// </param>
         /// <param name="e">
         /// </param>
-        private void ConnectTimer_Tick(object sender, EventArgs e)
+        private void ConnectTimerTick(object sender, EventArgs e)
         {
             this.ConnectTimer.Enabled = false;
             Process[] processes = Process.GetProcessesByName("anarchyonline");
@@ -94,11 +137,53 @@ namespace AOTooler
             }
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        private void MainWindowShown(object sender, EventArgs e)
+        {
+            this.CSC.Compile(true);
+            this.CSC.AddScriptMembers();
+            foreach (Assembly assembly in this.CSC.multipleDllList)
+            {
+                IAOToolerScript dock = ScriptCompiler.RunScript(assembly);
+                ((IDockContent)dock).DockHandler.Show(this.MainDock, dock.PreferredDockState());
+                this.DockWatch.Add(dock, dock.GetPacketWatcherList());
+            }
+        }
+
         #endregion
 
-        private void MainWindow_Load(object sender, EventArgs e)
+        private void PickupTimer_Tick(object sender, EventArgs e)
         {
+            Message[] pickedUp;
+            lock (messageStack)
+            {
+                if (messageStack.Count == 0)
+                {
+                    return;
+                }
+                pickedUp = messageStack.ToArray();
+                messageStack.Clear();
+            }
 
+            foreach (Message message in pickedUp)
+            {
+                foreach (KeyValuePair<IAOToolerScript, List<N3MessageType>> dock in DockWatch)
+                {
+                    N3Message n3 = message.Body as N3Message;
+                    if (n3 != null)
+                    {
+                        if (dock.Value.Contains(n3.N3MessageType))
+                        {
+                            dock.Key.PushPacket(n3.N3MessageType,n3);
+                        }
+                    }
+                }
+            }
         }
     }
 }

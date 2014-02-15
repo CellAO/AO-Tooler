@@ -1,6 +1,6 @@
-﻿namespace Script.Scripts.ExampleDock
+﻿namespace Script.Scripts.Mission_Control
 {
-    partial class ExampleDock
+    partial class MissionControl
     {
         /// <summary>
         /// Required designer variable.
@@ -28,11 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // MissionControl
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "ExampleDock";
+            this.ClientSize = new System.Drawing.Size(324, 519);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Name = "MissionControl";
+            this.Text = "MissionControl";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
     }
 }

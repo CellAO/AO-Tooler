@@ -49,28 +49,44 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IAOToolerScript.cs" />
-    <Compile Include="ScriptCompiler.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="Scripts\ExampleDock\ExampleDock.cs">
-      <SubType>Form</SubType>
+    <Content Include="Docks\ExampleDock\ExampleDock.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Form</SubType>
     </Content>
-    <Content Include="Scripts\ExampleDock\ExampleDock.Designer.cs">
+    <Content Include="Docks\ExampleDock\ExampleDock.Designer.cs">
       <DependentUpon>ExampleDock.cs</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Scripts\Mission Control\MissionControl.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="Docks\Mission Control\MissionControl.cs">
+      <SubType>Form</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Scripts\Mission Control\MissionControl.Designer.cs">
+    <Content Include="Docks\Mission Control\MissionControl.Designer.cs">
       <DependentUpon>MissionControl.cs</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Compile Include="IAOToolerScript.cs" />
+    <Compile Include="ScriptCompiler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\AOtomation.Messaging\src\SmokeLounge.AOtomation.Messaging\SmokeLounge.AOtomation.Messaging.csproj">
+      <Project>{3ceac898-bfca-45ea-bf34-c4bbb85d2da4}</Project>
+      <Name>SmokeLounge.AOtomation.Messaging</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Docks\ExampleDock\ExampleDock.resx">
+      <DependentUpon>ExampleDock.cs</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Docks\Mission Control\MissionControl.resx">
+      <DependentUpon>MissionControl.cs</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
