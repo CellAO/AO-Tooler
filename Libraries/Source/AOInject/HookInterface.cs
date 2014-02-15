@@ -29,53 +29,54 @@ namespace AOTooler.Hook
     #region Usings ...
 
     using System;
-    using System.Runtime.Remoting;
-    using System.Runtime.Remoting.Channels.Ipc;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.IO;
 
-    using EasyHook;
+    using Microsoft.SqlServer.Server;
 
     #endregion
 
     /// <summary>
     /// </summary>
-    public class AOHook
+    public class HookInterface : MarshalByRefObject
     {
-        #region Static Fields
-
-        /// <summary>
-        /// </summary>
-        public static IpcServerChannel IpcChannel;
-
-        /// <summary>
-        /// </summary>
-        private static string channelName = null;
-
-        #endregion
-
         #region Public Methods and Operators
 
         /// <summary>
         /// </summary>
-        /// <param name="processId">
+        /// <param name="InClientPID">
         /// </param>
-        /// <returns>
-        /// </returns>
-        public static bool Inject(int processId)
+        public void IsInstalled(int InClientPID)
         {
-            try
-            {
-                IpcChannel = RemoteHooking.IpcCreateServer<HookInterface>(
-                    ref channelName, 
-                    WellKnownObjectMode.Singleton);
+        }
 
-                RemoteHooking.Inject(processId, "AOInject.dll", "AOInject.dll", channelName);
+        /// <summary>
+        /// </summary>
+        /// <param name="InClientPID">
+        /// </param>
+        /// <param name="data">
+        /// </param>
+        public void Message(int InClientPID, byte[] data)
+        {
+            byte[] temp = new byte[data.Length];
+            Array.Copy(data,0,temp,0,data.Length);
+            this.queue.Push(temp);
+        }
 
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+        private Stack<byte[]> queue = new Stack<byte[]>();
+        /// <summary>
+        /// </summary>
+        public void Ping()
+        {
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="exception">
+        /// </param>
+        public void ReportException(Exception exception)
+        {
         }
 
         #endregion

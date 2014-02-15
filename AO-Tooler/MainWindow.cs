@@ -57,6 +57,10 @@ namespace AOTooler
 
         /// <summary>
         /// </summary>
+        private static Stack<byte[]> localDataStack = new Stack<byte[]>();
+
+        /// <summary>
+        /// </summary>
         private static Stack<Message> messageStack = new Stack<Message>();
 
         /// <summary>
@@ -96,17 +100,11 @@ namespace AOTooler
         /// </summary>
         /// <param name="data">
         /// </param>
-        public static void Enqueue(byte[][] data)
+        public static void Enqueue(byte[] data)
         {
-            lock (messageStack)
+            lock (localDataStack)
             {
-                foreach (byte[] packetBytes in data)
-                {
-                    MemoryStream ms = new MemoryStream(packetBytes);
-                    Message mess = serializer.Deserialize(ms);
-                    messageStack.Push(mess);
-                    ms.Close();
-                }
+                localDataStack.Push(data);
             }
         }
 
@@ -134,6 +132,7 @@ namespace AOTooler
             {
                 this.connectedLabel.Text = "Connected [" + processes[0].Id + "]";
                 this.statusLabel.Text = "Connected to Anarchy Online client";
+                this.PickupTimer.Enabled = true;
             }
         }
 
@@ -155,35 +154,56 @@ namespace AOTooler
             }
         }
 
-        #endregion
-
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
         private void PickupTimer_Tick(object sender, EventArgs e)
         {
-            Message[] pickedUp;
-            lock (messageStack)
+            this.PickupTimer.Enabled = false;
+            byte[][] packets;
+            lock (localDataStack)
             {
-                if (messageStack.Count == 0)
+                packets = localDataStack.ToArray();
+                localDataStack.Clear();
+            }
+
+            List<Message> pickedUp = new List<Message>();
+            foreach (byte[] data in packets)
+            {
+                try
                 {
-                    return;
+                    Message ms = serializer.Deserialize(new MemoryStream(data));
+                    if (ms != null)
+                    {
+                        pickedUp.Add(ms);
+                    }
                 }
-                pickedUp = messageStack.ToArray();
-                messageStack.Clear();
+                catch (Exception)
+                {
+                }
             }
 
             foreach (Message message in pickedUp)
             {
-                foreach (KeyValuePair<IAOToolerScript, List<N3MessageType>> dock in DockWatch)
+                foreach (KeyValuePair<IAOToolerScript, List<N3MessageType>> dock in this.DockWatch)
                 {
                     N3Message n3 = message.Body as N3Message;
                     if (n3 != null)
                     {
                         if (dock.Value.Contains(n3.N3MessageType))
                         {
-                            dock.Key.PushPacket(n3.N3MessageType,n3);
+                            dock.Key.PushPacket(n3.N3MessageType, n3);
                         }
                     }
                 }
             }
+
+            this.PickupTimer.Enabled = true;
         }
+
+        #endregion
     }
 }

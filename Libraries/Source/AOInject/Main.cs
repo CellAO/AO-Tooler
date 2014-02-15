@@ -43,6 +43,14 @@ namespace AOInject
     /// </summary>
     public class Main : IEntryPoint
     {
+        #region Static Fields
+
+        /// <summary>
+        /// </summary>
+        private static DDataBlockToMessage holder;
+
+        #endregion
+
         #region Fields
 
         /// <summary>
@@ -85,8 +93,10 @@ namespace AOInject
         /// </param>
         /// <param name="dataBlock">
         /// </param>
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall, CharSet = CharSet.Unicode, SetLastError = true)]
-        private delegate int DDataBlockToMessage(IntPtr _this, uint size, IntPtr dataBlock);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode, SetLastError = true)]
+        private delegate IntPtr DDataBlockToMessage(
+            [MarshalAs(UnmanagedType.U4)] uint size, 
+            [In] [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] byte[] dataBlock);
 
         #endregion
 
@@ -102,10 +112,11 @@ namespace AOInject
         {
             try
             {
+                holder = new DDataBlockToMessage(DataBlockToMessageHooked);
                 this.ReceiveMessageHook =
                     LocalHook.Create(
                         LocalHook.GetProcAddress("MessageProtocol.dll", "?DataBlockToMessage@@YAPAVMessage_t@@IPAX@Z"), 
-                        new DDataBlockToMessage(DataBlockToMessageHooked), 
+                        holder, 
                         this);
                 this.ReceiveMessageHook.ThreadACL.SetExclusiveACL(new[] { 0 });
             }
@@ -122,22 +133,24 @@ namespace AOInject
             {
                 while (true)
                 {
-                    Thread.Sleep(40);
-                    if (this.Queue.Count > 0)
+                    Thread.Sleep(50);
+                    GC.KeepAlive(holder);
+                    byte[][] package = null;
+                    lock (this.Queue)
                     {
-                        byte[][] package = null;
-                        lock (this.Queue)
+                        if (this.Queue.Count > 0)
                         {
                             package = this.Queue.ToArray();
                             this.Queue.Clear();
                         }
+                    }
 
-                        this.Interface.Message(RemoteHooking.GetCurrentProcessId(), package);
-                    }
-                    else
+                    if (package != null)
                     {
-                        this.Interface.Ping();
+                        this.Interface.Message(package);
                     }
+
+                    this.Interface.Ping();
                 }
             }
             catch (Exception)
@@ -151,8 +164,6 @@ namespace AOInject
 
         /// <summary>
         /// </summary>
-        /// <param name="_this">
-        /// </param>
         /// <param name="size">
         /// </param>
         /// <param name="dataBlock">
@@ -160,38 +171,29 @@ namespace AOInject
         /// <returns>
         /// </returns>
         [DllImport("MessageProtocol.dll", CharSet = CharSet.Unicode, SetLastError = true, 
-            CallingConvention = CallingConvention.ThisCall, EntryPoint = "?DataBlockToMessage@@YAPAVMessage_t@@IPAX@Z")]
-        private static extern int DataBlockToMessage(IntPtr _this, uint size, IntPtr dataBlock);
+            CallingConvention = CallingConvention.Cdecl, EntryPoint = "?DataBlockToMessage@@YAPAVMessage_t@@IPAX@Z")]
+        private static extern IntPtr DataBlockToMessage(
+            [MarshalAs(UnmanagedType.U4)] uint size, 
+            [MarshalAs(UnmanagedType.LPArray)] byte[] dataBlock);
 
         /// <summary>
         /// </summary>
-        /// <param name="_this">
-        /// </param>
         /// <param name="size">
         /// </param>
         /// <param name="dataBlock">
         /// </param>
         /// <returns>
         /// </returns>
-        private static int DataBlockToMessageHooked(IntPtr _this, uint size, IntPtr dataBlock)
+        private static IntPtr DataBlockToMessageHooked(
+            [MarshalAs(UnmanagedType.U4)] uint size, 
+            [In] [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)] byte[] dataBlock)
         {
-            try
+            lock (((Main)HookRuntimeInfo.Callback).Queue)
             {
-                Main This = (Main)HookRuntimeInfo.Callback;
-                byte[] temp = new byte[size];
-                uint size2 = size;
-                int size3 = (Int32)size2;
-                Marshal.Copy(dataBlock, temp, 0, size3);
-                lock (This.Queue)
-                {
-                    This.Queue.Push(temp);
-                }
-            }
-            catch (Exception)
-            {
+                ((Main)HookRuntimeInfo.Callback).Queue.Push(dataBlock);
             }
 
-            return DataBlockToMessage(_this, size, dataBlock);
+            return DataBlockToMessage(size, dataBlock);
         }
 
         #endregion

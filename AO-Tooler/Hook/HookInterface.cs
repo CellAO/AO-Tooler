@@ -29,6 +29,7 @@ namespace AOTooler.Hook
     #region Usings ...
 
     using System;
+    using System.Windows.Forms;
 
     #endregion
 
@@ -48,13 +49,14 @@ namespace AOTooler.Hook
 
         /// <summary>
         /// </summary>
-        /// <param name="InClientPID">
+        /// <param name="datas">
         /// </param>
-        /// <param name="data">
-        /// </param>
-        public void Message(int InClientPID, byte[][] data)
+        public void Message(byte[][] datas)
         {
-            MainWindow.Enqueue(data);
+            foreach (byte[] data in datas)
+            {
+                MainWindow.Enqueue(data);
+            }
         }
 
         /// <summary>
@@ -69,6 +71,7 @@ namespace AOTooler.Hook
         /// </param>
         public void ReportException(Exception exception)
         {
+            MessageBox.Show(exception.Message);
         }
 
         #endregion

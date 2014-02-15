@@ -85,6 +85,7 @@
             // ConnectTimer
             // 
             this.ConnectTimer.Enabled = true;
+            this.ConnectTimer.Interval = 1000;
             this.ConnectTimer.Tick += new System.EventHandler(this.ConnectTimerTick);
             // 
             // MainDock
@@ -144,7 +145,7 @@
             // 
             // PickupTimer
             // 
-            this.PickupTimer.Enabled = true;
+            this.PickupTimer.Interval = 60;
             this.PickupTimer.Tick += new System.EventHandler(this.PickupTimer_Tick);
             // 
             // MainWindow

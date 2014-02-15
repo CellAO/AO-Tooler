@@ -59,12 +59,6 @@
     <None Include="AOTooler.snk.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\AO-Tooler\AO-Tooler.csproj">
-      <Project>{4b7244c6-e648-491b-af90-a7cd2331a4f3}</Project>
-      <Name>AO-Tooler</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="EasyHook32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -77,6 +71,12 @@
     <Content Include="EasyHook64Svc.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\AO-Tooler\AO-Tooler.csproj">
+      <Project>{4b7244c6-e648-491b-af90-a7cd2331a4f3}</Project>
+      <Name>AO-Tooler</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
