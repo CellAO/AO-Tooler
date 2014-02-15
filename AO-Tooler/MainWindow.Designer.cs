@@ -53,7 +53,12 @@
             this.vS2012LightTheme1 = new WeifenLuo.WinFormsUI.Docking.VS2012LightTheme();
             this.MainDock = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.PickupTimer = new System.Windows.Forms.Timer(this.components);
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.extractItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.statusStrip1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -91,9 +96,9 @@
             // MainDock
             // 
             this.MainDock.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainDock.Location = new System.Drawing.Point(0, 0);
+            this.MainDock.Location = new System.Drawing.Point(0, 24);
             this.MainDock.Name = "MainDock";
-            this.MainDock.Size = new System.Drawing.Size(848, 432);
+            this.MainDock.Size = new System.Drawing.Size(848, 408);
             dockPanelGradient1.EndColor = System.Drawing.SystemColors.ControlLight;
             dockPanelGradient1.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
             autoHideStripSkin1.DockStripGradient = dockPanelGradient1;
@@ -148,6 +153,36 @@
             this.PickupTimer.Interval = 60;
             this.PickupTimer.Tick += new System.EventHandler(this.PickupTimer_Tick);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(848, 24);
+            this.menuStrip1.TabIndex = 4;
+            this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.extractItemsToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // extractItemsToolStripMenuItem
+            // 
+            this.extractItemsToolStripMenuItem.Name = "extractItemsToolStripMenuItem";
+            this.extractItemsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.extractItemsToolStripMenuItem.Text = "Extract Items";
+            this.extractItemsToolStripMenuItem.Click += new System.EventHandler(this.extractItemsToolStripMenuItem_Click);
+            // 
+            // folderBrowserDialog1
+            // 
+            this.folderBrowserDialog1.HelpRequest += new System.EventHandler(this.folderBrowserDialog1_HelpRequest);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -155,12 +190,16 @@
             this.ClientSize = new System.Drawing.Size(848, 454);
             this.Controls.Add(this.MainDock);
             this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.menuStrip1);
             this.IsMdiContainer = true;
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindow";
             this.Text = "MainWindow";
             this.Shown += new System.EventHandler(this.MainWindowShown);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -175,6 +214,10 @@
         private WeifenLuo.WinFormsUI.Docking.VS2012LightTheme vS2012LightTheme1;
         private WeifenLuo.WinFormsUI.Docking.DockPanel MainDock;
         private System.Windows.Forms.Timer PickupTimer;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem extractItemsToolStripMenuItem;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }
 

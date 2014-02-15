@@ -94,7 +94,13 @@ namespace Script
                                                             .GetDirectoryName(
                                                                 Application
                                                             .ExecutablePath), 
-                                                            "SmokeLounge.AOtomation.Messaging.dll")
+                                                            "SmokeLounge.AOtomation.Messaging.dll"),
+                                                        Path.Combine(
+                                                            Path
+                                                            .GetDirectoryName(
+                                                                Application
+                                                            .ExecutablePath), 
+                                                            "Utility.dll")
                                                     }, 
                                                     TreatWarningsAsErrors = false, 
                                                     WarningLevel = 3, 

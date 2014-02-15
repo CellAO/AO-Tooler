@@ -24,40 +24,69 @@
 
 #endregion
 
-namespace Script.Scripts.Mission_Control
+namespace CellAO.Core.Events
 {
     #region Usings ...
 
     using System;
     using System.Collections.Generic;
 
-    using SmokeLounge.AOtomation.Messaging.Messages;
-
-    using Utility;
-
-    using WeifenLuo.WinFormsUI.Docking;
+    using CellAO.Core.Functions;
+    using CellAO.Core.Requirements;
 
     #endregion
 
     /// <summary>
     /// </summary>
-    public partial class MissionControl : DockContent, IAOToolerScript
+    [Serializable]
+    public class Events : IEvents
     {
         #region Fields
 
         /// <summary>
+        /// Type of the Event (constants in ItemLoader)
         /// </summary>
-        private int iconCounter = 0;
+        private int eventType;
+
+        /// <summary>
+        /// List of Functions of the Event
+        /// </summary>
+        private List<Functions> functions = new List<Functions>(10);
 
         #endregion
 
-        #region Constructors and Destructors
+        #region Public Properties
 
         /// <summary>
+        /// Type of the Event (constants in ItemLoader)
         /// </summary>
-        public MissionControl()
+        public int EventType
         {
-            this.InitializeComponent();
+            get
+            {
+                return this.eventType;
+            }
+
+            set
+            {
+                this.eventType = value;
+            }
+        }
+
+        /// <summary>
+        /// List of Functions of the Event
+        /// </summary>
+        public List<Functions> Functions
+        {
+            get
+            {
+                return this.functions;
+            }
+
+            set
+            {
+                this.functions = value;
+            }
         }
 
         #endregion
@@ -68,58 +97,17 @@ namespace Script.Scripts.Mission_Control
         /// </summary>
         /// <returns>
         /// </returns>
-        public List<N3MessageType> GetPacketWatcherList()
+        public Events Copy()
         {
-            List<N3MessageType> types = new List<N3MessageType>() { };
-            return types;
-        }
+            Events copy = new Events();
 
-        /// <summary>
-        /// </summary>
-        /// <param name="args">
-        /// </param>
-        public void Initialize(string[] args)
-        {
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        public DockState PreferredDockState()
-        {
-            return DockState.DockRightAutoHide;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="type">
-        /// </param>
-        /// <param name="message">
-        /// </param>
-        public void PushPacket(N3MessageType type, N3Message message)
-        {
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void button1_Click(object sender, EventArgs e)
-        {
-            int a = -1;
-            while (a == -1)
+            copy.EventType = this.EventType;
+            foreach (Functions functions in this.Functions)
             {
-                a = ItemIcon.instance.GetRandomIconId();
+                copy.Functions.Add(functions.Copy());
             }
 
-            this.pictureBox1.Image = ItemIcon.instance.Get(a);
+            return copy;
         }
 
         #endregion

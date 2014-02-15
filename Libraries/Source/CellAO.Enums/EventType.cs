@@ -24,104 +24,110 @@
 
 #endregion
 
-namespace Script.Scripts.Mission_Control
+namespace CellAO.Enums
 {
-    #region Usings ...
-
-    using System;
-    using System.Collections.Generic;
-
-    using SmokeLounge.AOtomation.Messaging.Messages;
-
-    using Utility;
-
-    using WeifenLuo.WinFormsUI.Docking;
-
-    #endregion
-
     /// <summary>
     /// </summary>
-    public partial class MissionControl : DockContent, IAOToolerScript
+    public enum EventType : int
     {
-        #region Fields
+        /// <summary>
+        /// </summary>
+        OnActivate = 10, 
 
         /// <summary>
         /// </summary>
-        private int iconCounter = 0;
-
-        #endregion
-
-        #region Constructors and Destructors
+        OnClose = 19, 
 
         /// <summary>
         /// </summary>
-        public MissionControl()
-        {
-            this.InitializeComponent();
-        }
-
-        #endregion
-
-        #region Public Methods and Operators
+        OnCollide = 22, 
 
         /// <summary>
         /// </summary>
-        /// <returns>
-        /// </returns>
-        public List<N3MessageType> GetPacketWatcherList()
-        {
-            List<N3MessageType> types = new List<N3MessageType>() { };
-            return types;
-        }
+        OnCreate = 7, 
 
         /// <summary>
         /// </summary>
-        /// <param name="args">
-        /// </param>
-        public void Initialize(string[] args)
-        {
-        }
+        OnEffects = 8, 
 
         /// <summary>
         /// </summary>
-        /// <returns>
-        /// </returns>
-        public DockState PreferredDockState()
-        {
-            return DockState.DockRightAutoHide;
-        }
+        OnEndCollide = 23, 
 
         /// <summary>
         /// </summary>
-        /// <param name="type">
-        /// </param>
-        /// <param name="message">
-        /// </param>
-        public void PushPacket(N3MessageType type, N3Message message)
-        {
-        }
-
-        #endregion
-
-        #region Methods
+        OnEndEffect = 13, 
 
         /// <summary>
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void button1_Click(object sender, EventArgs e)
-        {
-            int a = -1;
-            while (a == -1)
-            {
-                a = ItemIcon.instance.GetRandomIconId();
-            }
+        OnEnemyInVicinity = 25, 
 
-            this.pictureBox1.Image = ItemIcon.instance.Get(a);
-        }
+        /// <summary>
+        /// </summary>
+        OnEnter = 16, 
 
-        #endregion
+        /// <summary>
+        /// </summary>
+        OnFailure = 27, 
+
+        /// <summary>
+        /// </summary>
+        OnFriendlyInVicinity = 24, 
+
+        /// <summary>
+        /// </summary>
+        OnHit = 5, 
+
+        /// <summary>
+        /// </summary>
+        OnOpen = 18, 
+
+        /// <summary>
+        /// </summary>
+        OnRepair = 1, 
+
+        /// <summary>
+        /// </summary>
+        OnRun = 9, 
+
+        /// <summary>
+        /// </summary>
+        OnStartEffect = 12, 
+
+        /// <summary>
+        /// </summary>
+        OnTargetInVicinity = 3, 
+
+        /// <summary>
+        /// </summary>
+        OnTerminate = 20, 
+
+        /// <summary>
+        /// </summary>
+        OnTrade = 37, 
+
+        /// <summary>
+        /// </summary>
+        OnUseItemOn = 4, 
+
+        /// <summary>
+        /// </summary>
+        OnUse = 0, 
+
+        /// <summary>
+        /// </summary>
+        OnUseFailed = 15, 
+
+        /// <summary>
+        /// </summary>
+        OnWear = 14, 
+
+        /// <summary>
+        /// </summary>
+        OnWield = 2, 
+
+        /// <summary>
+        /// </summary>
+        PersonalModifier = 26
     }
 }

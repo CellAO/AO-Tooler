@@ -31,6 +31,7 @@ namespace AOTooler
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Drawing;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -38,10 +39,16 @@ namespace AOTooler
 
     using AOTooler.Hook;
 
+    using CellAO.Core.Items;
+
+    using Extractor;
+
     using Script;
 
     using SmokeLounge.AOtomation.Messaging.Messages;
     using SmokeLounge.AOtomation.Messaging.Serialization;
+
+    using Utility;
 
     using WeifenLuo.WinFormsUI.Docking;
 
@@ -59,9 +66,8 @@ namespace AOTooler
         /// </summary>
         private static Stack<byte[]> localDataStack = new Stack<byte[]>();
 
-        /// <summary>
-        /// </summary>
-        private static Stack<Message> messageStack = new Stack<Message>();
+        private List<ItemTemplate> itemList = new List<ItemTemplate>();
+        private Dictionary<int,byte[]> iconDict = new Dictionary<int, byte[]>();
 
         /// <summary>
         /// </summary>
@@ -152,6 +158,15 @@ namespace AOTooler
                 ((IDockContent)dock).DockHandler.Show(this.MainDock, dock.PreferredDockState());
                 this.DockWatch.Add(dock, dock.GetPacketWatcherList());
             }
+            if ((File.Exists("items.dat") && (File.Exists("icons.dat"))))
+            {
+                statusLabel.Text = "Loading items...";
+                this.Update();
+                ItemLoader.CacheAllItems("items.dat");
+                ItemIcon.instance.Read("icons.dat");
+
+            }
+            statusLabel.Text = "Ready...";
         }
 
         /// <summary>
@@ -202,6 +217,68 @@ namespace AOTooler
             }
 
             this.PickupTimer.Enabled = true;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        private void extractItemsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            folderBrowserDialog1.SelectedPath = "E:\\AOBeta";
+            if (this.folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    ItemCollector ic = new ItemCollector(this.folderBrowserDialog1.SelectedPath);
+                    statusLabel.Text = "Extracting items and their icons";
+                    this.Update();
+                    
+                    ic.CollectItems();
+                    statusLabel.Text = "Ready...";
+                }
+                catch (Exception ee)
+                {
+                    try
+                    {
+                        ItemCollector ic =
+                            new ItemCollector(
+                                Path.Combine(this.folderBrowserDialog1.SelectedPath, "cd_image", "data", "db"));
+                        statusLabel.Text = "Extracting items and their icons";
+                        this.Update();
+                        ic.CollectItems();
+                        statusLabel.Text = "Ready...";
+                        return;
+                    }
+                    catch (Exception e2)
+                    {
+                        MessageBox.Show(e2.Message);
+                        return;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
         }
 
         #endregion

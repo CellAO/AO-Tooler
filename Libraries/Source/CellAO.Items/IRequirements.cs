@@ -24,103 +24,38 @@
 
 #endregion
 
-namespace Script.Scripts.Mission_Control
+namespace CellAO.Core.Requirements
 {
-    #region Usings ...
-
-    using System;
-    using System.Collections.Generic;
-
-    using SmokeLounge.AOtomation.Messaging.Messages;
-
-    using Utility;
-
-    using WeifenLuo.WinFormsUI.Docking;
-
-    #endregion
-
     /// <summary>
     /// </summary>
-    public partial class MissionControl : DockContent, IAOToolerScript
+    public interface IRequirements
     {
-        #region Fields
+        #region Public Properties
 
         /// <summary>
+        /// Child operator
         /// </summary>
-        private int iconCounter = 0;
-
-        #endregion
-
-        #region Constructors and Destructors
+        int ChildOperator { get; set; }
 
         /// <summary>
+        /// Operator
         /// </summary>
-        public MissionControl()
-        {
-            this.InitializeComponent();
-        }
-
-        #endregion
-
-        #region Public Methods and Operators
+        int Operator { get; set; }
 
         /// <summary>
+        /// Stat to check against
         /// </summary>
-        /// <returns>
-        /// </returns>
-        public List<N3MessageType> GetPacketWatcherList()
-        {
-            List<N3MessageType> types = new List<N3MessageType>() { };
-            return types;
-        }
+        int Statnumber { get; set; }
 
         /// <summary>
+        /// Target, from constants
         /// </summary>
-        /// <param name="args">
-        /// </param>
-        public void Initialize(string[] args)
-        {
-        }
+        int Target { get; set; }
 
         /// <summary>
+        /// Value to check against
         /// </summary>
-        /// <returns>
-        /// </returns>
-        public DockState PreferredDockState()
-        {
-            return DockState.DockRightAutoHide;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="type">
-        /// </param>
-        /// <param name="message">
-        /// </param>
-        public void PushPacket(N3MessageType type, N3Message message)
-        {
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void button1_Click(object sender, EventArgs e)
-        {
-            int a = -1;
-            while (a == -1)
-            {
-                a = ItemIcon.instance.GetRandomIconId();
-            }
-
-            this.pictureBox1.Image = ItemIcon.instance.Get(a);
-        }
+        int Value { get; set; }
 
         #endregion
     }

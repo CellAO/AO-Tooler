@@ -24,41 +24,51 @@
 
 #endregion
 
-namespace Script.Scripts.Mission_Control
+namespace CellAO.Core.Requirements
 {
     #region Usings ...
 
     using System;
-    using System.Collections.Generic;
 
-    using SmokeLounge.AOtomation.Messaging.Messages;
+    using CellAO.Enums;
 
     using Utility;
-
-    using WeifenLuo.WinFormsUI.Docking;
 
     #endregion
 
     /// <summary>
+    /// Requirements
     /// </summary>
-    public partial class MissionControl : DockContent, IAOToolerScript
+    [Serializable]
+    public class Requirements : IRequirements
     {
-        #region Fields
+
+        #region Public Properties
 
         /// <summary>
+        /// Child operator
         /// </summary>
-        private int iconCounter = 0;
-
-        #endregion
-
-        #region Constructors and Destructors
+        public int ChildOperator { get; set; }
 
         /// <summary>
+        /// Operator
         /// </summary>
-        public MissionControl()
-        {
-            this.InitializeComponent();
-        }
+        public int Operator { get; set; }
+
+        /// <summary>
+        /// Stat to check against
+        /// </summary>
+        public int Statnumber { get; set; }
+
+        /// <summary>
+        /// Target, from constants
+        /// </summary>
+        public int Target { get; set; }
+
+        /// <summary>
+        /// Value to check against
+        /// </summary>
+        public int Value { get; set; }
 
         #endregion
 
@@ -68,58 +78,15 @@ namespace Script.Scripts.Mission_Control
         /// </summary>
         /// <returns>
         /// </returns>
-        public List<N3MessageType> GetPacketWatcherList()
+        public Requirements Copy()
         {
-            List<N3MessageType> types = new List<N3MessageType>() { };
-            return types;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="args">
-        /// </param>
-        public void Initialize(string[] args)
-        {
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        public DockState PreferredDockState()
-        {
-            return DockState.DockRightAutoHide;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="type">
-        /// </param>
-        /// <param name="message">
-        /// </param>
-        public void PushPacket(N3MessageType type, N3Message message)
-        {
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void button1_Click(object sender, EventArgs e)
-        {
-            int a = -1;
-            while (a == -1)
-            {
-                a = ItemIcon.instance.GetRandomIconId();
-            }
-
-            this.pictureBox1.Image = ItemIcon.instance.Get(a);
+            Requirements copy = new Requirements();
+            copy.Operator = this.Operator;
+            copy.ChildOperator = this.ChildOperator;
+            copy.Target = this.Target;
+            copy.Statnumber = this.Statnumber;
+            copy.Value = this.Value;
+            return copy;
         }
 
         #endregion

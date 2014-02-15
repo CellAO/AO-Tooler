@@ -24,104 +24,61 @@
 
 #endregion
 
-namespace Script.Scripts.Mission_Control
+namespace CellAO.Enums
 {
     #region Usings ...
 
     using System;
-    using System.Collections.Generic;
-
-    using SmokeLounge.AOtomation.Messaging.Messages;
-
-    using Utility;
-
-    using WeifenLuo.WinFormsUI.Docking;
 
     #endregion
 
     /// <summary>
     /// </summary>
-    public partial class MissionControl : DockContent, IAOToolerScript
+    [Flags]
+    public enum Expansions : int
     {
-        #region Fields
+        /// <summary>
+        /// </summary>
+        AlienInvasion = 0x1 << 3, 
 
         /// <summary>
         /// </summary>
-        private int iconCounter = 0;
-
-        #endregion
-
-        #region Constructors and Destructors
+        AlienInvasionPreOrder = 1 << 4, 
 
         /// <summary>
         /// </summary>
-        public MissionControl()
-        {
-            this.InitializeComponent();
-        }
-
-        #endregion
-
-        #region Public Methods and Operators
+        LegacyOfTheXan = 0x1 << 7, 
 
         /// <summary>
         /// </summary>
-        /// <returns>
-        /// </returns>
-        public List<N3MessageType> GetPacketWatcherList()
-        {
-            List<N3MessageType> types = new List<N3MessageType>() { };
-            return types;
-        }
+        LegacyOfTheXanPreOrder = 1 << 8, 
 
         /// <summary>
         /// </summary>
-        /// <param name="args">
-        /// </param>
-        public void Initialize(string[] args)
-        {
-        }
+        LostEden = 0x1 << 5, 
 
         /// <summary>
         /// </summary>
-        /// <returns>
-        /// </returns>
-        public DockState PreferredDockState()
-        {
-            return DockState.DockRightAutoHide;
-        }
+        LostEdenPreOrder = 0x1 << 6, 
 
         /// <summary>
         /// </summary>
-        /// <param name="type">
-        /// </param>
-        /// <param name="message">
-        /// </param>
-        public void PushPacket(N3MessageType type, N3Message message)
-        {
-        }
-
-        #endregion
-
-        #region Methods
+        NotumWars = 0x1 << 0, 
 
         /// <summary>
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void button1_Click(object sender, EventArgs e)
-        {
-            int a = -1;
-            while (a == -1)
-            {
-                a = ItemIcon.instance.GetRandomIconId();
-            }
+        ShadowLands = 0x1 << 1, 
 
-            this.pictureBox1.Image = ItemIcon.instance.Get(a);
-        }
+        /// <summary>
+        /// </summary>
+        ShadowLandsPreOrder = 0x1 << 2, 
 
-        #endregion
+        /// <summary>
+        /// </summary>
+        Mail = 0x1 << 9, 
+
+        /// <summary>
+        /// </summary>
+        PMVObsidianEdition = 0x1 << 10
     }
 }

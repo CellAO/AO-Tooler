@@ -24,103 +24,41 @@
 
 #endregion
 
-namespace Script.Scripts.Mission_Control
+namespace Utility
 {
     #region Usings ...
 
     using System;
-    using System.Collections.Generic;
-
-    using SmokeLounge.AOtomation.Messaging.Messages;
-
-    using Utility;
-
-    using WeifenLuo.WinFormsUI.Docking;
 
     #endregion
 
     /// <summary>
+    /// Revision name attribute (name of the release)
     /// </summary>
-    public partial class MissionControl : DockContent, IAOToolerScript
+    [AttributeUsage(AttributeTargets.Assembly)]
+    public class RevisionNameAttribute : Attribute
     {
-        #region Fields
-
-        /// <summary>
-        /// </summary>
-        private int iconCounter = 0;
-
-        #endregion
-
         #region Constructors and Destructors
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="RevisionNameAttribute"/> class.
         /// </summary>
-        public MissionControl()
+        /// <param name="name">
+        /// Revision name
+        /// </param>
+        public RevisionNameAttribute(string name)
         {
-            this.InitializeComponent();
+            this.RevisionName = name;
         }
 
         #endregion
 
-        #region Public Methods and Operators
+        #region Public Properties
 
         /// <summary>
+        /// Gets or sets the Revision name
         /// </summary>
-        /// <returns>
-        /// </returns>
-        public List<N3MessageType> GetPacketWatcherList()
-        {
-            List<N3MessageType> types = new List<N3MessageType>() { };
-            return types;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="args">
-        /// </param>
-        public void Initialize(string[] args)
-        {
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        public DockState PreferredDockState()
-        {
-            return DockState.DockRightAutoHide;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="type">
-        /// </param>
-        /// <param name="message">
-        /// </param>
-        public void PushPacket(N3MessageType type, N3Message message)
-        {
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void button1_Click(object sender, EventArgs e)
-        {
-            int a = -1;
-            while (a == -1)
-            {
-                a = ItemIcon.instance.GetRandomIconId();
-            }
-
-            this.pictureBox1.Image = ItemIcon.instance.Get(a);
-        }
+        public string RevisionName { get; set; }
 
         #endregion
     }

@@ -24,102 +24,66 @@
 
 #endregion
 
-namespace Script.Scripts.Mission_Control
+namespace CellAO.Core.Actions
 {
     #region Usings ...
 
     using System;
     using System.Collections.Generic;
 
-    using SmokeLounge.AOtomation.Messaging.Messages;
-
-    using Utility;
-
-    using WeifenLuo.WinFormsUI.Docking;
+    using CellAO.Core.Requirements;
+    using CellAO.Enums;
 
     #endregion
 
     /// <summary>
+    /// AOActions covers all action types, with their reqs
     /// </summary>
-    public partial class MissionControl : DockContent, IAOToolerScript
+    [Serializable]
+    public class Actions : IActions
     {
-        #region Fields
-
-        /// <summary>
-        /// </summary>
-        private int iconCounter = 0;
-
-        #endregion
-
         #region Constructors and Destructors
 
         /// <summary>
         /// </summary>
-        public MissionControl()
+        public Actions()
         {
-            this.InitializeComponent();
+            this.Requirements = new List<Requirements>(15);
         }
 
         #endregion
 
-        #region Public Methods and Operators
+        #region Public Properties
 
         /// <summary>
+        /// Type of Action (constants in ItemLoader)
         /// </summary>
-        /// <returns>
-        /// </returns>
-        public List<N3MessageType> GetPacketWatcherList()
-        {
-            List<N3MessageType> types = new List<N3MessageType>() { };
-            return types;
-        }
+        public int ActionType { get; set; }
 
         /// <summary>
+        /// List of Requirements for this action
         /// </summary>
-        /// <param name="args">
-        /// </param>
-        public void Initialize(string[] args)
-        {
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        public DockState PreferredDockState()
-        {
-            return DockState.DockRightAutoHide;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="type">
-        /// </param>
-        /// <param name="message">
-        /// </param>
-        public void PushPacket(N3MessageType type, N3Message message)
-        {
-        }
+        public List<Requirements> Requirements { get; set; }
 
         #endregion
+
 
         #region Methods
 
         /// <summary>
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void button1_Click(object sender, EventArgs e)
+        /// <returns>
+        /// </returns>
+        internal Actions Copy()
         {
-            int a = -1;
-            while (a == -1)
+            Actions copy = new Actions();
+            copy.ActionType = this.ActionType;
+            foreach (Requirements requirements in this.Requirements)
             {
-                a = ItemIcon.instance.GetRandomIconId();
+                copy.Requirements.Add(requirements.Copy());
             }
 
-            this.pictureBox1.Image = ItemIcon.instance.Get(a);
+            return copy;
         }
 
         #endregion

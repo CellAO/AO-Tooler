@@ -24,103 +24,113 @@
 
 #endregion
 
-namespace Script.Scripts.Mission_Control
+namespace CellAO.Core.Items
 {
     #region Usings ...
 
-    using System;
     using System.Collections.Generic;
 
-    using SmokeLounge.AOtomation.Messaging.Messages;
+    using CellAO.Core.Actions;
+    using CellAO.Core.Events;
+    using CellAO.Enums;
 
-    using Utility;
-
-    using WeifenLuo.WinFormsUI.Docking;
+    using SmokeLounge.AOtomation.Messaging.GameData;
 
     #endregion
 
     /// <summary>
+    /// Item Interface
     /// </summary>
-    public partial class MissionControl : DockContent, IAOToolerScript
+    public interface IItem
     {
-        #region Fields
+        #region Public Properties
+
+        /// <summary>
+        /// Item's Flags
+        /// </summary>
+        int Flags { get; }
+
+        /// <summary>
+        /// HighId of the item template
+        /// </summary>
+        int HighID { get; }
+
+        /// <summary>
+        /// Identity of the item (if it is instanced)
+        /// </summary>
+        Identity Identity { get; }
 
         /// <summary>
         /// </summary>
-        private int iconCounter = 0;
-
-        #endregion
-
-        #region Constructors and Destructors
+        List<Actions> ItemActions { get; }
 
         /// <summary>
         /// </summary>
-        public MissionControl()
-        {
-            this.InitializeComponent();
-        }
+        List<Events> ItemEvents { get; }
+
+        /// <summary>
+        /// LowId of the item template
+        /// </summary>
+        int LowID { get; }
+
+        /// <summary>
+        /// Stacked count of the item
+        /// </summary>
+        int MultipleCount { get; set; }
+
+        /// <summary>
+        /// We Dont Know (TM)
+        /// </summary>
+        int Nothing { get; }
+
+        /// <summary>
+        /// Quality level of the item
+        /// </summary>
+        int Quality { get; set; }
 
         #endregion
 
         #region Public Methods and Operators
 
         /// <summary>
+        /// Get item attribute
         /// </summary>
-        /// <returns>
-        /// </returns>
-        public List<N3MessageType> GetPacketWatcherList()
-        {
-            List<N3MessageType> types = new List<N3MessageType>() { };
-            return types;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="args">
+        /// <param name="attributeId">
+        /// Id of the attribute
         /// </param>
-        public void Initialize(string[] args)
-        {
-        }
+        /// <returns>
+        /// Stored item attribute value
+        /// </returns>
+        int GetAttribute(int attributeId);
 
         /// <summary>
         /// </summary>
         /// <returns>
         /// </returns>
-        public DockState PreferredDockState()
-        {
-            return DockState.DockRightAutoHide;
-        }
+        byte[] GetItemAttributes();
 
         /// <summary>
         /// </summary>
-        /// <param name="type">
-        /// </param>
-        /// <param name="message">
-        /// </param>
-        public void PushPacket(N3MessageType type, N3Message message)
-        {
-        }
+        /// <returns>
+        /// </returns>
+        bool IsInstanced();
 
-        #endregion
-
-        #region Methods
 
         /// <summary>
+        /// Set an item attribute
         /// </summary>
-        /// <param name="sender">
+        /// <param name="attributeId">
+        /// Id of the attribute
         /// </param>
-        /// <param name="e">
+        /// <param name="newValue">
+        /// The new value of the item attribute
         /// </param>
-        private void button1_Click(object sender, EventArgs e)
-        {
-            int a = -1;
-            while (a == -1)
-            {
-                a = ItemIcon.instance.GetRandomIconId();
-            }
+        void SetAttribute(int attributeId, int newValue);
 
-            this.pictureBox1.Image = ItemIcon.instance.Get(a);
-        }
+        /// <summary>
+        /// Write item to database
+        /// </summary>
+        void WriteToDatabase();
 
         #endregion
     }

@@ -24,104 +24,99 @@
 
 #endregion
 
-namespace Script.Scripts.Mission_Control
+namespace CellAO.Enums
 {
-    #region Usings ...
+    /// <summary>
+    /// Enumeration of Move modes
+    /// </summary>
+    public enum MoveModes
+    {
+        /// <summary>
+        /// </summary>
+        None, 
 
-    using System;
-    using System.Collections.Generic;
+        /// <summary>
+        /// </summary>
+        Rooted, 
 
-    using SmokeLounge.AOtomation.Messaging.Messages;
+        /// <summary>
+        /// </summary>
+        Walk, 
 
-    using Utility;
+        /// <summary>
+        /// </summary>
+        Run, 
 
-    using WeifenLuo.WinFormsUI.Docking;
+        /// <summary>
+        /// </summary>
+        Swim, 
 
-    #endregion
+        /// <summary>
+        /// </summary>
+        Crawl, 
+
+        /// <summary>
+        /// </summary>
+        Sneak, 
+
+        /// <summary>
+        /// </summary>
+        Fly, 
+
+        /// <summary>
+        /// </summary>
+        Sit, 
+
+        /// <summary>
+        /// </summary>
+        SocialTemp, // NV: What is this again exactly?
+
+        /// <summary>
+        /// </summary>
+        Nothing, 
+
+        /// <summary>
+        /// </summary>
+        Sleep, 
+
+        /// <summary>
+        /// </summary>
+        Lounge
+    }
 
     /// <summary>
+    /// Enumeration of Spin or Strafe directions
     /// </summary>
-    public partial class MissionControl : DockContent, IAOToolerScript
+    public enum SpinOrStrafeDirections
     {
-        #region Fields
+        /// <summary>
+        /// </summary>
+        None, 
 
         /// <summary>
         /// </summary>
-        private int iconCounter = 0;
-
-        #endregion
-
-        #region Constructors and Destructors
+        Left, 
 
         /// <summary>
         /// </summary>
-        public MissionControl()
-        {
-            this.InitializeComponent();
-        }
+        Right
+    }
 
-        #endregion
-
-        #region Public Methods and Operators
+    /// <summary>
+    /// Enumeration of Move directions
+    /// </summary>
+    public enum MoveDirections
+    {
+        /// <summary>
+        /// </summary>
+        None, 
 
         /// <summary>
         /// </summary>
-        /// <returns>
-        /// </returns>
-        public List<N3MessageType> GetPacketWatcherList()
-        {
-            List<N3MessageType> types = new List<N3MessageType>() { };
-            return types;
-        }
+        Forwards, 
 
         /// <summary>
         /// </summary>
-        /// <param name="args">
-        /// </param>
-        public void Initialize(string[] args)
-        {
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        public DockState PreferredDockState()
-        {
-            return DockState.DockRightAutoHide;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="type">
-        /// </param>
-        /// <param name="message">
-        /// </param>
-        public void PushPacket(N3MessageType type, N3Message message)
-        {
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void button1_Click(object sender, EventArgs e)
-        {
-            int a = -1;
-            while (a == -1)
-            {
-                a = ItemIcon.instance.GetRandomIconId();
-            }
-
-            this.pictureBox1.Image = ItemIcon.instance.Get(a);
-        }
-
-        #endregion
+        Backwards
     }
 }

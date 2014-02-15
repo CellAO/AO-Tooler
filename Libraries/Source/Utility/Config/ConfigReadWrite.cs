@@ -24,30 +24,35 @@
 
 #endregion
 
-namespace Script.Scripts.Mission_Control
+namespace Utility.Config
 {
     #region Usings ...
 
     using System;
-    using System.Collections.Generic;
-
-    using SmokeLounge.AOtomation.Messaging.Messages;
-
-    using Utility;
-
-    using WeifenLuo.WinFormsUI.Docking;
+    using System.IO;
+    using System.Text;
+    using System.Xml.Serialization;
 
     #endregion
 
     /// <summary>
+    /// 
     /// </summary>
-    public partial class MissionControl : DockContent, IAOToolerScript
+    public class ConfigReadWrite
     {
+        #region Static Fields
+
+        /// <summary>
+        /// </summary>
+        private static ConfigReadWrite _instance;
+
+        #endregion
+
         #region Fields
 
         /// <summary>
         /// </summary>
-        private int iconCounter = 0;
+        private Config _config;
 
         #endregion
 
@@ -55,9 +60,55 @@ namespace Script.Scripts.Mission_Control
 
         /// <summary>
         /// </summary>
-        public MissionControl()
+        private ConfigReadWrite()
         {
-            this.InitializeComponent();
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static ConfigReadWrite Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new ConfigReadWrite();
+                }
+
+                return _instance;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Config CurrentConfig
+        {
+            get
+            {
+                try
+                {
+                    if (this._config == null)
+                    {
+                        this._config =
+                            (Config)
+                                new XmlSerializer(typeof(Config)).Deserialize(
+                                    new MemoryStream(File.ReadAllBytes("Config.xml")));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this._config = new Config();
+                }
+
+                return this._config;
+            }
         }
 
         #endregion
@@ -65,61 +116,29 @@ namespace Script.Scripts.Mission_Control
         #region Public Methods and Operators
 
         /// <summary>
+        /// Saves the current config back to the file
         /// </summary>
-        /// <returns>
-        /// </returns>
-        public List<N3MessageType> GetPacketWatcherList()
+        /// <returns>true, if successful</returns>
+        public bool SaveConfig()
         {
-            List<N3MessageType> types = new List<N3MessageType>() { };
-            return types;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="args">
-        /// </param>
-        public void Initialize(string[] args)
-        {
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        public DockState PreferredDockState()
-        {
-            return DockState.DockRightAutoHide;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="type">
-        /// </param>
-        /// <param name="message">
-        /// </param>
-        public void PushPacket(N3MessageType type, N3Message message)
-        {
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void button1_Click(object sender, EventArgs e)
-        {
-            int a = -1;
-            while (a == -1)
+            if (this._config == null)
             {
-                a = ItemIcon.instance.GetRandomIconId();
+                return false;
             }
 
-            this.pictureBox1.Image = ItemIcon.instance.Get(a);
+            try
+            {
+                XmlSerializer ser = new XmlSerializer(typeof(Config));
+                MemoryStream ms = new MemoryStream();
+                ser.Serialize(ms, this._config);
+                File.WriteAllText("config.xml", Encoding.UTF8.GetString(ms.GetBuffer()));
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
 
         #endregion

@@ -24,41 +24,56 @@
 
 #endregion
 
-namespace Script.Scripts.Mission_Control
+namespace CellAO.Core.Functions
 {
     #region Usings ...
 
-    using System;
     using System.Collections.Generic;
 
-    using SmokeLounge.AOtomation.Messaging.Messages;
-
-    using Utility;
-
-    using WeifenLuo.WinFormsUI.Docking;
+    using CellAO.Core.Requirements;
 
     #endregion
 
     /// <summary>
     /// </summary>
-    public partial class MissionControl : DockContent, IAOToolerScript
+    public interface IFunctions
     {
-        #region Fields
+        #region Public Properties
 
         /// <summary>
+        /// List of Arguments
         /// </summary>
-        private int iconCounter = 0;
-
-        #endregion
-
-        #region Constructors and Destructors
+        FunctionArguments Arguments { get; set; }
 
         /// <summary>
+        /// Type of function (constants in ItemLoader)
         /// </summary>
-        public MissionControl()
-        {
-            this.InitializeComponent();
-        }
+        int FunctionType { get; set; }
+
+        /// <summary>
+        /// Requirements to execute this function
+        /// </summary>
+        List<Requirements> Requirements { get; set; }
+
+        /// <summary>
+        /// TargetType (constants in ItemLoader)
+        /// </summary>
+        int Target { get; set; }
+
+        /// <summary>
+        /// TickCount (for timers)
+        /// </summary>
+        int TickCount { get; set; }
+
+        /// <summary>
+        /// TickInterval (for timers)
+        /// </summary>
+        uint TickInterval { get; set; }
+
+        /// <summary>
+        /// process local stats (not serialized)
+        /// </summary>
+        bool dolocalstats { get; set; }
 
         #endregion
 
@@ -68,59 +83,13 @@ namespace Script.Scripts.Mission_Control
         /// </summary>
         /// <returns>
         /// </returns>
-        public List<N3MessageType> GetPacketWatcherList()
-        {
-            List<N3MessageType> types = new List<N3MessageType>() { };
-            return types;
-        }
+        string Serialize();
 
         /// <summary>
+        /// Copy Function
         /// </summary>
-        /// <param name="args">
-        /// </param>
-        public void Initialize(string[] args)
-        {
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        public DockState PreferredDockState()
-        {
-            return DockState.DockRightAutoHide;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="type">
-        /// </param>
-        /// <param name="message">
-        /// </param>
-        public void PushPacket(N3MessageType type, N3Message message)
-        {
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void button1_Click(object sender, EventArgs e)
-        {
-            int a = -1;
-            while (a == -1)
-            {
-                a = ItemIcon.instance.GetRandomIconId();
-            }
-
-            this.pictureBox1.Image = ItemIcon.instance.Get(a);
-        }
+        /// <returns>new copy</returns>
+        IFunctions ShallowCopy();
 
         #endregion
     }

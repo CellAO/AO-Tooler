@@ -24,102 +24,35 @@
 
 #endregion
 
-namespace Script.Scripts.Mission_Control
+namespace Utility
 {
     #region Usings ...
 
-    using System;
-    using System.Collections.Generic;
-
-    using SmokeLounge.AOtomation.Messaging.Messages;
-
-    using Utility;
-
-    using WeifenLuo.WinFormsUI.Docking;
+    using System.Text.RegularExpressions;
 
     #endregion
 
     /// <summary>
     /// </summary>
-    public partial class MissionControl : DockContent, IAOToolerScript
+    public static class TestEmailRegex
     {
-        #region Fields
-
-        /// <summary>
-        /// </summary>
-        private int iconCounter = 0;
-
-        #endregion
-
-        #region Constructors and Destructors
-
-        /// <summary>
-        /// </summary>
-        public MissionControl()
-        {
-            this.InitializeComponent();
-        }
-
-        #endregion
-
         #region Public Methods and Operators
 
         /// <summary>
         /// </summary>
+        /// <param name="emailAddress">
+        /// </param>
         /// <returns>
         /// </returns>
-        public List<N3MessageType> GetPacketWatcherList()
+        public static bool TestEmail(string emailAddress)
         {
-            List<N3MessageType> types = new List<N3MessageType>() { };
-            return types;
-        }
+            const string PatternStrict =
+                @"^(([^<>()[\]\\.,;:\s@\""]+" + @"(\.[^<>()[\]\\.,;:\s@\""]+)*)|(\"".+\""))@"
+                + @"((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" + @"\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+"
+                + @"[a-zA-Z]{2,}))$";
 
-        /// <summary>
-        /// </summary>
-        /// <param name="args">
-        /// </param>
-        public void Initialize(string[] args)
-        {
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        public DockState PreferredDockState()
-        {
-            return DockState.DockRightAutoHide;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="type">
-        /// </param>
-        /// <param name="message">
-        /// </param>
-        public void PushPacket(N3MessageType type, N3Message message)
-        {
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void button1_Click(object sender, EventArgs e)
-        {
-            int a = -1;
-            while (a == -1)
-            {
-                a = ItemIcon.instance.GetRandomIconId();
-            }
-
-            this.pictureBox1.Image = ItemIcon.instance.Get(a);
+            var reStrict = new Regex(PatternStrict);
+            return reStrict.IsMatch(emailAddress);
         }
 
         #endregion

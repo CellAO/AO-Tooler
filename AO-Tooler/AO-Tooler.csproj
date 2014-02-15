@@ -102,9 +102,21 @@
       <Project>{3ceac898-bfca-45ea-bf34-c4bbb85d2da4}</Project>
       <Name>SmokeLounge.AOtomation.Messaging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Libraries\Source\CellAO.Items\CellAO.Items.csproj">
+      <Project>{FED7149F-1F9E-4BC6-96F3-128F367B5021}</Project>
+      <Name>CellAO.Items</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Libraries\Source\Extractor\Extractor.csproj">
+      <Project>{86f5aae8-5057-4967-895a-c853ccb07709}</Project>
+      <Name>Extractor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Libraries\Source\Script\Script.csproj">
       <Project>{e290120d-42da-4367-83a2-6387a1d7d56d}</Project>
       <Name>Script</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Libraries\Source\Utility\Utility.csproj">
+      <Project>{cb56f285-02ae-4816-9e8a-ec69991400e5}</Project>
+      <Name>Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -24,102 +24,62 @@
 
 #endregion
 
-namespace Script.Scripts.Mission_Control
+namespace CellAO.Core.Items
 {
     #region Usings ...
 
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
 
-    using SmokeLounge.AOtomation.Messaging.Messages;
 
     using Utility;
-
-    using WeifenLuo.WinFormsUI.Docking;
 
     #endregion
 
     /// <summary>
+    /// Item template Loader/Cache class
     /// </summary>
-    public partial class MissionControl : DockContent, IAOToolerScript
+    public static class ItemLoader
     {
-        #region Fields
+        #region Static Fields
 
         /// <summary>
+        /// Cache of all item templates
         /// </summary>
-        private int iconCounter = 0;
-
-        #endregion
-
-        #region Constructors and Destructors
-
-        /// <summary>
-        /// </summary>
-        public MissionControl()
-        {
-            this.InitializeComponent();
-        }
+        public static Dictionary<int, ItemTemplate> ItemList = new Dictionary<int, ItemTemplate>(130000);
 
         #endregion
 
         #region Public Methods and Operators
 
         /// <summary>
+        /// Cache all item templates
         /// </summary>
+        /// <returns>number of cached items</returns>
+        public static int CacheAllItems()
+        {
+            return CacheAllItems("items.dat");
+        }
+
+        /// <summary>
+        /// Cache all item templates
+        /// </summary>
+        /// <param name="fname">
+        /// File to load from
+        /// </param>
         /// <returns>
+        /// Number of cached items
         /// </returns>
-        public List<N3MessageType> GetPacketWatcherList()
+        public static int CacheAllItems(string fname)
         {
-            List<N3MessageType> types = new List<N3MessageType>() { };
-            return types;
-        }
+            Contract.Requires(!string.IsNullOrEmpty(fname));
+            DateTime _now = DateTime.UtcNow;
 
-        /// <summary>
-        /// </summary>
-        /// <param name="args">
-        /// </param>
-        public void Initialize(string[] args)
-        {
-        }
+            MessagePackZip.UncompressData<ItemTemplate>(fname).ForEach(x => ItemList.Add(x.ID, x));
 
-        /// <summary>
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        public DockState PreferredDockState()
-        {
-            return DockState.DockRightAutoHide;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="type">
-        /// </param>
-        /// <param name="message">
-        /// </param>
-        public void PushPacket(N3MessageType type, N3Message message)
-        {
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void button1_Click(object sender, EventArgs e)
-        {
-            int a = -1;
-            while (a == -1)
-            {
-                a = ItemIcon.instance.GetRandomIconId();
-            }
-
-            this.pictureBox1.Image = ItemIcon.instance.Get(a);
+            GC.Collect();
+            return ItemList.Count;
         }
 
         #endregion

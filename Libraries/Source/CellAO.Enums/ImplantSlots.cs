@@ -24,104 +24,62 @@
 
 #endregion
 
-namespace Script.Scripts.Mission_Control
+namespace CellAO.Enums
 {
-    #region Usings ...
-
-    using System;
-    using System.Collections.Generic;
-
-    using SmokeLounge.AOtomation.Messaging.Messages;
-
-    using Utility;
-
-    using WeifenLuo.WinFormsUI.Docking;
-
-    #endregion
-
     /// <summary>
     /// </summary>
-    public partial class MissionControl : DockContent, IAOToolerScript
+    public enum ImplantSlots
     {
-        #region Fields
+        /// <summary>
+        /// </summary>
+        Chest = 5, 
 
         /// <summary>
         /// </summary>
-        private int iconCounter = 0;
-
-        #endregion
-
-        #region Constructors and Destructors
+        Ears = 3, 
 
         /// <summary>
         /// </summary>
-        public MissionControl()
-        {
-            this.InitializeComponent();
-        }
-
-        #endregion
-
-        #region Public Methods and Operators
+        Eyes = 1, 
 
         /// <summary>
         /// </summary>
-        /// <returns>
-        /// </returns>
-        public List<N3MessageType> GetPacketWatcherList()
-        {
-            List<N3MessageType> types = new List<N3MessageType>() { };
-            return types;
-        }
+        Feet = 13, 
 
         /// <summary>
         /// </summary>
-        /// <param name="args">
-        /// </param>
-        public void Initialize(string[] args)
-        {
-        }
+        Head = 2, 
 
         /// <summary>
         /// </summary>
-        /// <returns>
-        /// </returns>
-        public DockState PreferredDockState()
-        {
-            return DockState.DockRightAutoHide;
-        }
+        Leftarm = 6, 
 
         /// <summary>
         /// </summary>
-        /// <param name="type">
-        /// </param>
-        /// <param name="message">
-        /// </param>
-        public void PushPacket(N3MessageType type, N3Message message)
-        {
-        }
-
-        #endregion
-
-        #region Methods
+        Lefthand = 12, 
 
         /// <summary>
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void button1_Click(object sender, EventArgs e)
-        {
-            int a = -1;
-            while (a == -1)
-            {
-                a = ItemIcon.instance.GetRandomIconId();
-            }
+        Leftwrist = 9, 
 
-            this.pictureBox1.Image = ItemIcon.instance.Get(a);
-        }
+        /// <summary>
+        /// </summary>
+        Legs = 11, 
 
-        #endregion
+        /// <summary>
+        /// </summary>
+        Rightarm = 4, 
+
+        /// <summary>
+        /// </summary>
+        Righthand = 10, 
+
+        /// <summary>
+        /// </summary>
+        Rightwrist = 7, 
+
+        /// <summary>
+        /// </summary>
+        Waist = 8, 
     }
 }
