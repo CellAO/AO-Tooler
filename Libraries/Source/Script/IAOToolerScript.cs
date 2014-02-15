@@ -24,81 +24,20 @@
 
 #endregion
 
-namespace AOTooler
+namespace Script
 {
-    #region Usings ...
-
-    using System;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Windows.Forms;
-
-    using AOTooler.Hook;
-
-    using Script;
-
-    #endregion
-
     /// <summary>
     /// </summary>
-    public partial class MainWindow : Form
+    internal interface IAOToolerScript
     {
-        #region Constructors and Destructors
-
-        private ScriptCompiler CSC = new ScriptCompiler();
-
-        /// <summary>
-        /// </summary>
-        public MainWindow()
-        {
-            this.InitializeComponent();
-            CSC.Compile(true);
-        }
-
-        #endregion
-
         #region Public Methods and Operators
 
         /// <summary>
         /// </summary>
-        /// <param name="data">
+        /// <param name="args">
         /// </param>
-        public static void Enqueue(byte[][] data)
-        {
-        }
+        void Initialize(string[] args);
 
         #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void ConnectTimer_Tick(object sender, EventArgs e)
-        {
-            this.ConnectTimer.Enabled = false;
-            Process[] processes = Process.GetProcessesByName("anarchyonline");
-            if (processes.Count() == 0)
-            {
-                this.ConnectTimer.Enabled = true;
-                return;
-            }
-
-            if (AOHook.Inject(processes[0].Id))
-            {
-                this.connectedLabel.Text = "Connected [" + processes[0].Id + "]";
-                this.statusLabel.Text = "Connected to Anarchy Online client";
-            }
-        }
-
-        #endregion
-
-        private void MainWindow_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

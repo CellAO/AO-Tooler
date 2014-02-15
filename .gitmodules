@@ -1,0 +1,3 @@
+[submodule "Libraries/Source/AOtomation.Messaging"]
+	path = Libraries/Source/AOtomation.Messaging
+	url = https://github.com/CellAO/AOtomation.Messaging
