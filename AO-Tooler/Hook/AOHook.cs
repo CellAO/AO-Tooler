@@ -85,13 +85,13 @@ namespace AOTooler.Hook
                     WellKnownObjectMode.SingleCall);
 
                 RemoteHooking.Inject(processId, "AOInject.dll", "AOInject.dll", ChannelName);
+                
                 return true;
             }
             catch (Exception e)
             {
                 lastException = e;
                 throw;
-                return false;
             }
         }
 
