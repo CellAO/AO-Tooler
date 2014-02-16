@@ -32,6 +32,7 @@ namespace Script.Scripts.Mission_Control
     using System.Collections.Generic;
     using System.IO;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
     using SmokeLounge.AOtomation.Messaging.Messages;
     using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
     using SmokeLounge.AOtomation.Messaging.Serialization;
@@ -75,7 +76,7 @@ namespace Script.Scripts.Mission_Control
         /// </returns>
         public List<N3MessageType> GetPacketWatcherList()
         {
-            List<N3MessageType> types = new List<N3MessageType>(){N3MessageType.GenericCmd} ;
+            List<N3MessageType> types = new List<N3MessageType>(){N3MessageType.QuestAlternative} ;
             return types;
         }
 
@@ -98,24 +99,17 @@ namespace Script.Scripts.Mission_Control
 
         public void PushPacket(N3MessageType type, N3Message message, Message fullMessage)
         {
-            GenericCmdMessage cmd = (GenericCmdMessage)message;
-
-
-            TextWriter tw = new StreamWriter(@"F:\test.txt", true);
-            tw.WriteLine(message.GetType().ToString());
-            tw.WriteLine("user: " + cmd.User);
-            tw.WriteLine("target: " + cmd.Target);
-            tw.WriteLine("temp1: " + cmd.Temp1);
-            tw.WriteLine("Temp4: " + cmd.Temp4);
-            tw.WriteLine("Action: " + cmd.Action);
-            tw.WriteLine("Unknown: " + cmd.Unknown);
-            tw.WriteLine("tostring: " + cmd.ToString());
-            MessageSerializer serializer = new MessageSerializer();
-            MemoryStream ms = new MemoryStream();
-            serializer.Serialize(ms, (Message)fullMessage);
-            byte[] temp = ms.ToArray();
-            tw.WriteLine(BitConverter.ToString(temp));
-            tw.Close();
+            QuestAlternativeMessage mes = (QuestAlternativeMessage)message;
+            textBox1.Text = "";
+            string output = "";
+            foreach (QuestInfo qi in mes.QuestInfos)
+            {
+                output += "Icon: " + qi.MissionIconId + "\r\n";
+                output += "Cash: " + qi.CashReward + "\r\n";
+                output += "XP:   " + qi.ExperienceReward + "\r\n";
+                output += "-----";
+            }
+            textBox1.Text = output;
         }
 
         #endregion
