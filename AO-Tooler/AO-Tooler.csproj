@@ -110,6 +110,10 @@
       <Project>{86f5aae8-5057-4967-895a-c853ccb07709}</Project>
       <Name>Extractor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Libraries\Source\Playfields\Playfields.csproj">
+      <Project>{49a9162d-0771-4148-aedb-32f4d99c7203}</Project>
+      <Name>Playfields</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Libraries\Source\Script\Script.csproj">
       <Project>{e290120d-42da-4367-83a2-6387a1d7d56d}</Project>
       <Name>Script</Name>

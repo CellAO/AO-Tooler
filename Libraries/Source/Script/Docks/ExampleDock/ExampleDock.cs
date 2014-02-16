@@ -80,7 +80,7 @@ namespace Script.Scripts.ExampleDock
         /// </returns>
         public DockState PreferredDockState()
         {
-            return DockState.DockLeft;
+            return DockState.DockBottom;
         }
 
         /// <summary>

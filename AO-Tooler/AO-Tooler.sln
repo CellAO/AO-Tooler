@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CellAO.Items", "..\Librarie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "..\Libraries\Source\Utility\Utility.csproj", "{CB56F285-02AE-4816-9E8A-EC69991400E5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playfields", "..\Libraries\Source\Playfields\Playfields.csproj", "{49A9162D-0771-4148-AEDB-32F4D99C7203}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -344,6 +346,42 @@ Global
 		{CB56F285-02AE-4816-9E8A-EC69991400E5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{CB56F285-02AE-4816-9E8A-EC69991400E5}.Release|Win32.ActiveCfg = Release|Any CPU
 		{CB56F285-02AE-4816-9E8A-EC69991400E5}.Release|x64.ActiveCfg = Release|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx3.5-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx3.5-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx3.5-Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx3.5-Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx3.5-Debug|Win32.ActiveCfg = Debug|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx3.5-Debug|x64.ActiveCfg = Debug|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx3.5-Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx3.5-Release|Any CPU.Build.0 = Release|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx3.5-Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx3.5-Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx3.5-Release|Win32.ActiveCfg = Release|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx3.5-Release|x64.ActiveCfg = Release|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx4-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx4-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx4-Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx4-Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx4-Debug|Win32.ActiveCfg = Debug|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx4-Debug|x64.ActiveCfg = Debug|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx4-Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx4-Release|Any CPU.Build.0 = Release|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx4-Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx4-Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx4-Release|Win32.ActiveCfg = Release|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.netfx4-Release|x64.ActiveCfg = Release|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.Release|Win32.ActiveCfg = Release|Any CPU
+		{49A9162D-0771-4148-AEDB-32F4D99C7203}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -356,5 +394,6 @@ Global
 		{0C09AF43-3456-4FD6-9041-D9A6D7C3F36C} = {A88EE587-22FB-42F9-ACDD-418253563303}
 		{FED7149F-1F9E-4BC6-96F3-128F367B5021} = {A88EE587-22FB-42F9-ACDD-418253563303}
 		{CB56F285-02AE-4816-9E8A-EC69991400E5} = {A88EE587-22FB-42F9-ACDD-418253563303}
+		{49A9162D-0771-4148-AEDB-32F4D99C7203} = {A88EE587-22FB-42F9-ACDD-418253563303}
 	EndGlobalSection
 EndGlobal

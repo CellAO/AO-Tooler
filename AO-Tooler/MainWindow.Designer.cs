@@ -57,6 +57,8 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extractItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.vS2005Theme1 = new WeifenLuo.WinFormsUI.Docking.VS2005Theme();
+            this.vS2003Theme1 = new WeifenLuo.WinFormsUI.Docking.VS2003Theme();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -175,7 +177,7 @@
             // extractItemsToolStripMenuItem
             // 
             this.extractItemsToolStripMenuItem.Name = "extractItemsToolStripMenuItem";
-            this.extractItemsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.extractItemsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.extractItemsToolStripMenuItem.Text = "Extract Items";
             this.extractItemsToolStripMenuItem.Click += new System.EventHandler(this.extractItemsToolStripMenuItem_Click);
             // 
@@ -219,6 +221,8 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem extractItemsToolStripMenuItem;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private VS2005Theme vS2005Theme1;
+        private VS2003Theme vS2003Theme1;
     }
 }
 

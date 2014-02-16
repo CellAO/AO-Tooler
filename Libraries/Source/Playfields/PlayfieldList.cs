@@ -24,32 +24,34 @@
 
 #endregion
 
-namespace Extractor
+namespace Utility
 {
     #region Usings ...
 
+    using System;
     using System.Collections.Generic;
-    using System.Linq;
-
-    using CellAO.Core.Items;
-
-    using Extractor_Serializer;
 
     using Playfields;
-
-    using Utility;
 
     #endregion
 
     /// <summary>
     /// </summary>
-    public class ItemCollector
+    public class PlayfieldList
     {
+        #region Static Fields
+
+        /// <summary>
+        /// </summary>
+        public static PlayfieldList instance;
+
+        #endregion
+
         #region Fields
 
         /// <summary>
         /// </summary>
-        private Extractor extractor;
+        private Dictionary<int, PlayfieldData> playfieldDictionary = null;
 
         #endregion
 
@@ -57,11 +59,9 @@ namespace Extractor
 
         /// <summary>
         /// </summary>
-        /// <param name="rdbPath">
-        /// </param>
-        public ItemCollector(string rdbPath)
+        static PlayfieldList()
         {
-            this.extractor = new Extractor(rdbPath);
+            instance = new PlayfieldList();
         }
 
         #endregion
@@ -70,52 +70,32 @@ namespace Extractor
 
         /// <summary>
         /// </summary>
+        /// <param name="id">
+        /// </param>
         /// <returns>
         /// </returns>
-        public int CollectItems()
+        /// <exception cref="IndexOutOfRangeException">
+        /// </exception>
+        public PlayfieldData Get(int id)
         {
-            List<ItemTemplate> items = new List<ItemTemplate>();
-            NewParser parser = new NewParser();
-
-            // Items = 10000020
-            foreach (int recnum in this.extractor.GetRecordInstances(1000020))
+            if (this.playfieldDictionary.ContainsKey(id))
             {
-                items.Add(parser.ParseItem(1000020, recnum, this.extractor.GetRecordData(1000020, recnum)));
+                return this.playfieldDictionary[id];
             }
 
-            List<int> itemsIconIds = new List<int>();
-            foreach (ItemTemplate item in items)
-            {
-                if (!itemsIconIds.Contains(item.getItemAttribute(79)))
-                {
-                    itemsIconIds.Add(item.getItemAttribute(79));
-                }
-            }
+            throw new IndexOutOfRangeException("Playfield Id not found: " + id);
+        }
 
-            Dictionary<int, byte[]> icons = new Dictionary<int, byte[]>();
-
-            // Icons = 1010008
-            foreach (int recnum in this.extractor.GetRecordInstances(1010008))
-            {
-                // Commented it because it wouldnt get mission icons
-                // if (itemsIconIds.Contains(recnum))
-                {
-                    icons.Add(recnum, this.extractor.GetRecordData(1010008, recnum));
-                }
-            }
-
-            Dictionary<int,PlayfieldData> playfields = new Dictionary<int, PlayfieldData>();
-            foreach (int recnum in this.extractor.GetRecordInstances(1000001))
-            {
-                playfields.Add(
-                    recnum,
-                    PlayfieldParser.ParsePlayfield(this.extractor.GetRecordData(1000001, recnum), recnum));
-            }
-
-            MessagePackZip.CompressData("icons.dat", string.Empty, icons);
-            MessagePackZip.CompressData("items.dat", string.Empty, items);
-            MessagePackZip.CompressData("playfields.dat", string.Empty, playfields);
-            return items.Count();
+        /// <summary>
+        /// </summary>
+        /// <param name="filename">
+        /// </param>
+        /// <returns>
+        /// </returns>
+        public int Read(string filename)
+        {
+            this.playfieldDictionary = MessagePackZip.UncompressData<int, PlayfieldData>(filename);
+            return this.playfieldDictionary.Count;
         }
 
         #endregion

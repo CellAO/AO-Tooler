@@ -132,7 +132,7 @@ namespace AOTooler
         {
             this.ConnectTimer.Enabled = false;
             Process[] processes = Process.GetProcessesByName("anarchyonline");
-            if (processes.Count() == 0)
+            if (!processes.Any())
             {
                 this.ConnectTimer.Enabled = true;
                 return;
@@ -163,15 +163,38 @@ namespace AOTooler
                 this.DockWatch.Add(dock, dock.GetPacketWatcherList());
             }
 
-            if (File.Exists("items.dat") && (File.Exists("icons.dat")))
+            if (File.Exists("items.dat") && File.Exists("icons.dat"))
             {
-                this.statusLabel.Text = "Loading items...";
-                this.Update();
-                ItemLoader.CacheAllItems("items.dat");
-                ItemIcon.instance.Read("icons.dat");
+                this.LoadItemsAndIcons();
+            }
+            else
+            {
+                MessageBox.Show("No items/icons found. Please locate your AO folder.");
+                this.extractItemsToolStripMenuItem_Click(null, null);
+                this.LoadItemsAndIcons();
             }
 
             this.statusLabel.Text = "Ready...";
+        }
+
+        private void LoadItemsAndIcons()
+        {
+            this.statusLabel.Text = "Loading items...";
+            this.Update();
+            ItemLoader.CacheAllItems("items.dat");
+            ItemIcon.instance.Read("icons.dat");
+            PlayfieldList.instance.Read("playfields.dat");
+
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
         }
 
         /// <summary>
@@ -287,10 +310,5 @@ namespace AOTooler
         }
 
         #endregion
-
-        private void MainWindow_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

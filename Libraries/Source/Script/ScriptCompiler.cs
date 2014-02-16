@@ -100,7 +100,19 @@ namespace Script
                                                             .GetDirectoryName(
                                                                 Application
                                                             .ExecutablePath), 
-                                                            "Utility.dll")
+                                                            "Utility.dll"),
+                                                        Path.Combine(
+                                                            Path
+                                                            .GetDirectoryName(
+                                                                Application
+                                                            .ExecutablePath), 
+                                                            "CellAO.Items.dll"),
+                                                        Path.Combine(
+                                                            Path
+                                                            .GetDirectoryName(
+                                                                Application
+                                                            .ExecutablePath), 
+                                                            "Playfields.dll")
                                                     }, 
                                                     TreatWarningsAsErrors = false, 
                                                     WarningLevel = 3, 

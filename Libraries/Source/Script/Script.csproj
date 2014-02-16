@@ -78,6 +78,14 @@
       <Project>{3ceac898-bfca-45ea-bf34-c4bbb85d2da4}</Project>
       <Name>SmokeLounge.AOtomation.Messaging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CellAO.Items\CellAO.Items.csproj">
+      <Project>{FED7149F-1F9E-4BC6-96F3-128F367B5021}</Project>
+      <Name>CellAO.Items</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Playfields\Playfields.csproj">
+      <Project>{49A9162D-0771-4148-AEDB-32F4D99C7203}</Project>
+      <Name>Playfields</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utility\Utility.csproj">
       <Project>{cb56f285-02ae-4816-9e8a-ec69991400e5}</Project>
       <Name>Utility</Name>

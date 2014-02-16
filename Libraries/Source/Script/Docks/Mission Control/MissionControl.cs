@@ -28,20 +28,21 @@ namespace Script.Scripts.Mission_Control
 {
     #region Usings ...
 
-    using System;
     using System.Collections.Generic;
-    using System.IO;
+    using System.Drawing;
+    using System.Windows.Forms;
+
+    using CellAO.Core.Items;
 
     using SmokeLounge.AOtomation.Messaging.GameData;
     using SmokeLounge.AOtomation.Messaging.Messages;
     using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
-    using SmokeLounge.AOtomation.Messaging.Serialization;
 
     using Utility;
 
     using WeifenLuo.WinFormsUI.Docking;
 
-    using StreamWriter = System.IO.StreamWriter;
+    using Message = SmokeLounge.AOtomation.Messaging.Messages.Message;
 
     #endregion
 
@@ -54,6 +55,10 @@ namespace Script.Scripts.Mission_Control
         /// <summary>
         /// </summary>
         private int iconCounter = 0;
+
+        /// <summary>
+        /// </summary>
+        private Panel[] panels = new Panel[5];
 
         #endregion
 
@@ -76,7 +81,7 @@ namespace Script.Scripts.Mission_Control
         /// </returns>
         public List<N3MessageType> GetPacketWatcherList()
         {
-            List<N3MessageType> types = new List<N3MessageType>(){N3MessageType.QuestAlternative} ;
+            List<N3MessageType> types = new List<N3MessageType>() { N3MessageType.QuestAlternative };
             return types;
         }
 
@@ -86,6 +91,11 @@ namespace Script.Scripts.Mission_Control
         /// </param>
         public void Initialize(string[] args)
         {
+            this.panels[0] = this.panel1;
+            this.panels[1] = this.panel2;
+            this.panels[2] = this.panel3;
+            this.panels[3] = this.panel4;
+            this.panels[4] = this.panel5;
         }
 
         /// <summary>
@@ -94,22 +104,86 @@ namespace Script.Scripts.Mission_Control
         /// </returns>
         public DockState PreferredDockState()
         {
-            return DockState.DockRightAutoHide;
+            return DockState.Document;
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="type">
+        /// </param>
+        /// <param name="message">
+        /// </param>
+        /// <param name="fullMessage">
+        /// </param>
         public void PushPacket(N3MessageType type, N3Message message, Message fullMessage)
         {
             QuestAlternativeMessage mes = (QuestAlternativeMessage)message;
-            textBox1.Text = "";
-            string output = "";
+            this.ClearOldPanels();
+            int i = 0;
             foreach (QuestInfo qi in mes.QuestInfos)
             {
-                output += "Icon: " + qi.MissionIconId + "\r\n";
-                output += "Cash: " + qi.CashReward + "\r\n";
-                output += "XP:   " + qi.ExperienceReward + "\r\n";
-                output += "-----";
+                PictureBox missionIcon = new PictureBox();
+                this.panels[i].Controls.Add(missionIcon);
+                missionIcon.Left = 5;
+                missionIcon.Top = 5;
+                missionIcon.Size = new Size(48, 48);
+                missionIcon.Image = ItemIcon.instance.Get(qi.MissionIconId);
+                Label l1 = new Label
+                           {
+                               Text = "Location: " + this.GetLocationOfMission(qi),
+                               Left = 58,
+                               Top = 5,
+                               AutoSize = true
+                           };
+                this.panels[i].Controls.Add(l1);
+
+                int cashfromItems = 0;
+                foreach (QuestItemShort qis in qi.ItemRewards)
+                {
+                    cashfromItems += new Item(qis.Quality,qis.LowId,qis.HighId).GetAttribute(74); // Value stat
+                }
+
+                Label l2 = new Label
+                           {
+                               Left = 58,
+                               Top = l1.Top + l1.Height + 5,
+                               AutoSize = true,
+                               Text = "Cash/Cash from Items/XP: " + qi.CashReward+"/"+cashfromItems + "/" + qi.ExperienceReward
+                           };
+                this.panels[i].Controls.Add(l2);
+
+
+                int item = 0;
+                foreach (QuestItemShort qis in qi.ItemRewards)
+                {
+                    PictureBox itemIcon = new PictureBox
+                                          {
+                                              Size = new Size(48, 48),
+                                              Top = 5 + item * 53,
+                                              Left = 380,
+                                              Image = ItemLoader.ItemList[qis.HighId].GetIcon()
+                                          };
+                    this.panels[i].Controls.Add(itemIcon);
+                    Label l3 = new Label
+                               {
+                                   Top = itemIcon.Top,
+                                   AutoSize = true,
+                                   Text = ItemLoader.ItemList[qis.HighId].ItemName + " (QL " + qis.Quality + ")",
+                                   Left = 380 + 48 + 5
+                               };
+                    panels[i].Controls.Add(l3);
+                    Label l4 = new Label
+                               {
+                                   Top = l3.Top + l3.Height + 5,
+                                   Text = "Worth: " + ItemLoader.ItemList[qis.HighId].getItemAttribute(61)
+                               };
+                    item++;
+                }
+
+                i++;
             }
-            textBox1.Text = output;
+
+            this.AlignPanels();
         }
 
         #endregion
@@ -118,19 +192,46 @@ namespace Script.Scripts.Mission_Control
 
         /// <summary>
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void button1_Click(object sender, EventArgs e)
+        private void AlignPanels()
         {
-            int a = -1;
-            while (a == -1)
+            foreach (Panel p in this.panels)
             {
-                a = ItemIcon.instance.GetRandomIconId();
+                p.Height = this.MaxPanelHeight(p) + 5;
             }
+        }
 
-            this.pictureBox1.Image = ItemIcon.instance.Get(a);
+        private int MaxPanelHeight(Panel p)
+        {
+            int maxY = 0;
+            foreach (Control c in p.Controls)
+            {
+                maxY = maxY < c.Top + c.Height ? c.Top + c.Height : maxY;
+            }
+            return maxY;
+        }
+        /// <summary>
+        /// </summary>
+        private void ClearOldPanels()
+        {
+            foreach (Panel p in this.panels)
+            {
+                p.Controls.Clear();
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="qi">
+        /// </param>
+        /// <returns>
+        /// </returns>
+        private string GetLocationOfMission(QuestInfo qi)
+        {
+            return PlayfieldList.instance.Get(qi.QuestActions[0].Playfield.Instance).Name
+                   + string.Format(
+                       " ({0}, {1})",
+                       qi.QuestActions[0].X.ToString("0.0"),
+                       qi.QuestActions[0].Z.ToString("0.0"));
         }
 
         #endregion
