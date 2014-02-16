@@ -58,6 +58,7 @@
     <Compile Include="CpuRamUtilization.cs" />
     <Compile Include="FunctionArgumentList.cs" />
     <Compile Include="ItemIcon.cs" />
+    <Compile Include="ItemNames.cs" />
     <Compile Include="LogUtil.cs" />
     <Compile Include="MessagePackZip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

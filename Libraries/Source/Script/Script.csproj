@@ -61,6 +61,12 @@
       <DependentUpon>ExampleDock.cs</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Compile Include="Docks\Mission Control\Filter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Docks\Mission Control\Filter.Designer.cs">
+      <DependentUpon>Filter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Docks\Mission Control\MissionControl.cs">
       <SubType>Form</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -98,6 +104,9 @@
     <EmbeddedResource Include="Docks\ExampleDock\ExampleDock.resx">
       <DependentUpon>ExampleDock.cs</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Docks\Mission Control\Filter.resx">
+      <DependentUpon>Filter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Docks\Mission Control\MissionControl.resx">
       <DependentUpon>MissionControl.cs</DependentUpon>

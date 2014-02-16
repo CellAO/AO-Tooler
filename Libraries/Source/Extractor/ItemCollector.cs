@@ -28,6 +28,7 @@ namespace Extractor
 {
     #region Usings ...
 
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -74,16 +75,30 @@ namespace Extractor
         /// </returns>
         public int CollectItems()
         {
-            List<ItemTemplate> items = new List<ItemTemplate>();
+            List<ItemTemplate> items = new List<ItemTemplate>(this.extractor.GetRecordInstanceCount(1000020));
             NewParser parser = new NewParser();
-
+            List<string> nameList = new List<string>(this.extractor.GetRecordInstanceCount(1000020));
             // Items = 10000020
             foreach (int recnum in this.extractor.GetRecordInstances(1000020))
             {
-                items.Add(parser.ParseItem(1000020, recnum, this.extractor.GetRecordData(1000020, recnum)));
+                ItemTemplate itt = parser.ParseItem(1000020, recnum, this.extractor.GetRecordData(1000020, recnum));
+                if (!string.IsNullOrEmpty(itt.ItemName))
+                {
+                    nameList.Add(itt.ItemName);
+                }
+                items.Add(itt);
+            }
+            nameList.Sort();
+
+            for (int i = nameList.Count-1; i >= 1; i--)
+            {
+                if (nameList[i] == nameList[i - 1])
+                {
+                    nameList.RemoveAt(i);
+                }
             }
 
-            List<int> itemsIconIds = new List<int>();
+            List<int> itemsIconIds = new List<int>(50000);
             foreach (ItemTemplate item in items)
             {
                 if (!itemsIconIds.Contains(item.getItemAttribute(79)))
@@ -92,7 +107,7 @@ namespace Extractor
                 }
             }
 
-            Dictionary<int, byte[]> icons = new Dictionary<int, byte[]>();
+            Dictionary<int, byte[]> icons = new Dictionary<int, byte[]>(this.extractor.GetRecordInstanceCount(1010008));
 
             // Icons = 1010008
             foreach (int recnum in this.extractor.GetRecordInstances(1010008))
@@ -104,7 +119,7 @@ namespace Extractor
                 }
             }
 
-            Dictionary<int,PlayfieldData> playfields = new Dictionary<int, PlayfieldData>();
+            Dictionary<int,PlayfieldData> playfields = new Dictionary<int, PlayfieldData>(1000);
             foreach (int recnum in this.extractor.GetRecordInstances(1000001))
             {
                 playfields.Add(
@@ -115,6 +130,7 @@ namespace Extractor
             MessagePackZip.CompressData("icons.dat", string.Empty, icons);
             MessagePackZip.CompressData("items.dat", string.Empty, items);
             MessagePackZip.CompressData("playfields.dat", string.Empty, playfields);
+            MessagePackZip.CompressData("itemnames.dat",string.Empty,nameList);
             return items.Count();
         }
 

@@ -179,7 +179,7 @@
             this.extractItemsToolStripMenuItem.Name = "extractItemsToolStripMenuItem";
             this.extractItemsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.extractItemsToolStripMenuItem.Text = "Extract Items";
-            this.extractItemsToolStripMenuItem.Click += new System.EventHandler(this.extractItemsToolStripMenuItem_Click);
+            this.extractItemsToolStripMenuItem.Click += new System.EventHandler(this.ExtractItemsToolStripMenuItemClick);
             // 
             // folderBrowserDialog1
             // 

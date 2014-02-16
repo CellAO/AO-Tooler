@@ -188,11 +188,19 @@ namespace Extractor_Serializer
             if (num5 > 0)
             {
                 aoi.ItemName = this.br.ReadString(num5);
+                if (aoi.ItemName == null)
+                {
+                    aoi.ItemName = string.Empty;
+                }
             }
 
             if (num6 > 0)
             {
                 aoi.Description = this.br.ReadString(num6);
+                if (aoi.Description == null)
+                {
+                    aoi.Description = string.Empty;
+                }
             }
 
             bool flag4 = true;

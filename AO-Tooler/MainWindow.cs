@@ -156,22 +156,23 @@ namespace AOTooler
         {
             this.CSC.Compile(true);
             this.CSC.AddScriptMembers();
-            foreach (Assembly assembly in this.CSC.multipleDllList)
-            {
-                IAOToolerScript dock = ScriptCompiler.RunScript(assembly);
-                ((IDockContent)dock).DockHandler.Show(this.MainDock, dock.PreferredDockState());
-                this.DockWatch.Add(dock, dock.GetPacketWatcherList());
-            }
 
-            if (File.Exists("items.dat") && File.Exists("icons.dat") && File.Exists("playfields.dat"))
+            if (File.Exists("items.dat") && File.Exists("icons.dat") && File.Exists("playfields.dat") && File.Exists("itemnames.dat"))
             {
                 this.LoadItemsAndIcons();
             }
             else
             {
                 MessageBox.Show("No items/icons found. Please locate your AO folder.");
-                this.extractItemsToolStripMenuItem_Click(null, null);
+                this.ExtractItemsToolStripMenuItemClick(null, null);
                 this.LoadItemsAndIcons();
+            }
+
+            foreach (Assembly assembly in this.CSC.multipleDllList)
+            {
+                IAOToolerScript dock = ScriptCompiler.RunScript(assembly);
+                ((IDockContent)dock).DockHandler.Show(this.MainDock, dock.PreferredDockState());
+                this.DockWatch.Add(dock, dock.GetPacketWatcherList());
             }
 
             this.statusLabel.Text = "Ready...";
@@ -184,6 +185,7 @@ namespace AOTooler
             ItemLoader.CacheAllItems("items.dat");
             ItemIcon.instance.Read("icons.dat");
             PlayfieldList.instance.Read("playfields.dat");
+            ItemNames.instance.Read("itemnames.dat");
 
         }
 
@@ -253,7 +255,7 @@ namespace AOTooler
         /// </param>
         /// <param name="e">
         /// </param>
-        private void extractItemsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExtractItemsToolStripMenuItemClick(object sender, EventArgs e)
         {
             this.folderBrowserDialog1.SelectedPath = "E:\\AOBeta";
             if (this.folderBrowserDialog1.ShowDialog() == DialogResult.OK)

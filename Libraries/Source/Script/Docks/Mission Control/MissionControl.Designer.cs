@@ -93,11 +93,12 @@
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.HideOnClose = true;
-            this.MinimumSize = new System.Drawing.Size(800, 0);
+            this.MinimumSize = new System.Drawing.Size(800, 38);
             this.Name = "MissionControl";
             this.ShowInTaskbar = false;
             this.TabText = "Mission Control";
             this.Text = "MissionControl";
+            this.DockStateChanged += new System.EventHandler(this.MissionControl_DockStateChanged);
             this.ResumeLayout(false);
 
         }

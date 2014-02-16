@@ -34,6 +34,8 @@ namespace Script.Scripts.Mission_Control
 
     using CellAO.Core.Items;
 
+    using Script.Docks.Mission_Control;
+
     using SmokeLounge.AOtomation.Messaging.GameData;
     using SmokeLounge.AOtomation.Messaging.Messages;
     using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
@@ -235,5 +237,23 @@ namespace Script.Scripts.Mission_Control
         }
 
         #endregion
+
+        private Filter filterWindow = null;
+
+        private void MissionControl_DockChanged(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void MissionControl_DockStateChanged(object sender, System.EventArgs e)
+        {
+            if (filterWindow != null)
+            {
+                return;
+            }
+            filterWindow = new Filter();
+            filterWindow.DockHandler.Show(this.DockHandler.DockPanel);
+            filterWindow.DockState = DockState.DockRightAutoHide;
+        }
     }
 }
