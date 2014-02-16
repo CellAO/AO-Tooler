@@ -163,7 +163,7 @@ namespace AOTooler
                 this.DockWatch.Add(dock, dock.GetPacketWatcherList());
             }
 
-            if (File.Exists("items.dat") && File.Exists("icons.dat"))
+            if (File.Exists("items.dat") && File.Exists("icons.dat") && File.Exists("playfields.dat"))
             {
                 this.LoadItemsAndIcons();
             }
