@@ -26,9 +26,6 @@
 
 namespace Utility
 {
-    
-
-
     #region Usings ...
 
     using MsgPack;

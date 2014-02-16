@@ -30,10 +30,6 @@ namespace CellAO.Core.Requirements
 
     using System;
 
-    using CellAO.Enums;
-
-    using Utility;
-
     #endregion
 
     /// <summary>
@@ -42,7 +38,6 @@ namespace CellAO.Core.Requirements
     [Serializable]
     public class Requirements : IRequirements
     {
-
         #region Public Properties
 
         /// <summary>

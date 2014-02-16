@@ -32,7 +32,6 @@ namespace CellAO.Core.Items
 
     using CellAO.Core.Actions;
     using CellAO.Core.Events;
-    using CellAO.Enums;
 
     using SmokeLounge.AOtomation.Messaging.GameData;
 
@@ -114,7 +113,6 @@ namespace CellAO.Core.Items
         /// <returns>
         /// </returns>
         bool IsInstanced();
-
 
         /// <summary>
         /// Set an item attribute

@@ -175,7 +175,7 @@
             // extractItemsToolStripMenuItem
             // 
             this.extractItemsToolStripMenuItem.Name = "extractItemsToolStripMenuItem";
-            this.extractItemsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.extractItemsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.extractItemsToolStripMenuItem.Text = "Extract Items";
             this.extractItemsToolStripMenuItem.Click += new System.EventHandler(this.extractItemsToolStripMenuItem_Click);
             // 
@@ -195,6 +195,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindow";
             this.Text = "MainWindow";
+            this.Load += new System.EventHandler(this.MainWindow_Load);
             this.Shown += new System.EventHandler(this.MainWindowShown);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();

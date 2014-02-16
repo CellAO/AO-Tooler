@@ -31,16 +31,16 @@ namespace CellAO.Core.Items
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
+    using System.Drawing;
 
-    using CellAO.Core.Actions;
-    using CellAO.Core.Events;
+    using Utility;
 
     #endregion
 
     /// <summary>
     /// </summary>
     [Serializable]
-    public class ItemTemplate 
+    public class ItemTemplate
     {
         #region Fields
 
@@ -111,9 +111,13 @@ namespace CellAO.Core.Items
 
         #region Public Properties
 
-        public string ItemName { get; set; }
-
+        /// <summary>
+        /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// </summary>
+        public string ItemName { get; set; }
 
         #endregion
 
@@ -430,6 +434,15 @@ namespace CellAO.Core.Items
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <returns>
+        /// </returns>
+        public Image GetIcon()
+        {
+            return ItemIcon.instance.Get(this.getItemAttribute(79));
         }
 
         /// <summary>

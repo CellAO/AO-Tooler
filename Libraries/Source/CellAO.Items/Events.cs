@@ -32,7 +32,6 @@ namespace CellAO.Core.Events
     using System.Collections.Generic;
 
     using CellAO.Core.Functions;
-    using CellAO.Core.Requirements;
 
     #endregion
 

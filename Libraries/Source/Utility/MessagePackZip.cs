@@ -77,7 +77,6 @@ namespace Utility
         /// </exception>
         public static void CompressData<T>(string filename, string version, List<T> dataList, int packCount = 500)
         {
-
             if (packCount == 0)
             {
                 throw new Exception("Dont use 0 as packCount!!");
@@ -151,7 +150,6 @@ namespace Utility
             Dictionary<T, TU> dataList, 
             int packCount = 500)
         {
-
             if (packCount == 0)
             {
                 throw new Exception("Dont use 0 as packCount!!");
