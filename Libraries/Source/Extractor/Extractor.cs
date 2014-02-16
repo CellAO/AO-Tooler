@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2005-2013, CellAO Team
+// Copyright (c) 2005-2014, CellAO Team
 // 
 // All rights reserved.
 // 
@@ -153,7 +153,6 @@ namespace Extractor
             bStream.Dispose();
         }
 
-
         /// <summary>
         /// Finalizes an instance of the <see cref="Extractor"/> class. 
         /// </summary>
@@ -304,6 +303,17 @@ namespace Extractor
         #region Methods
 
         /// <summary>
+        /// </summary>
+        /// <param name="p">
+        /// </param>
+        /// <returns>
+        /// </returns>
+        internal int GetRecordInstanceCount(int p)
+        {
+            return this.Records[p].Count;
+        }
+
+        /// <summary>
         /// The dispose.
         /// </summary>
         /// <param name="disposing">
@@ -365,10 +375,5 @@ namespace Extractor
         }
 
         #endregion
-
-        internal int GetRecordInstanceCount(int p)
-        {
-            return this.Records[p].Count;
-        }
     }
 }

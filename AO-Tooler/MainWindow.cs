@@ -31,7 +31,6 @@ namespace AOTooler
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Drawing;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -66,9 +65,6 @@ namespace AOTooler
         /// </summary>
         private static Stack<byte[]> localDataStack = new Stack<byte[]>();
 
-        private List<ItemTemplate> itemList = new List<ItemTemplate>();
-        private Dictionary<int,byte[]> iconDict = new Dictionary<int, byte[]>();
-
         /// <summary>
         /// </summary>
         private static MessageSerializer serializer;
@@ -85,6 +81,14 @@ namespace AOTooler
         /// </summary>
         private Dictionary<IAOToolerScript, List<N3MessageType>> DockWatch =
             new Dictionary<IAOToolerScript, List<N3MessageType>>();
+
+        /// <summary>
+        /// </summary>
+        private Dictionary<int, byte[]> iconDict = new Dictionary<int, byte[]>();
+
+        /// <summary>
+        /// </summary>
+        private List<ItemTemplate> itemList = new List<ItemTemplate>();
 
         #endregion
 
@@ -158,15 +162,16 @@ namespace AOTooler
                 ((IDockContent)dock).DockHandler.Show(this.MainDock, dock.PreferredDockState());
                 this.DockWatch.Add(dock, dock.GetPacketWatcherList());
             }
-            if ((File.Exists("items.dat") && (File.Exists("icons.dat"))))
+
+            if (File.Exists("items.dat") && (File.Exists("icons.dat")))
             {
-                statusLabel.Text = "Loading items...";
+                this.statusLabel.Text = "Loading items...";
                 this.Update();
                 ItemLoader.CacheAllItems("items.dat");
                 ItemIcon.instance.Read("icons.dat");
-
             }
-            statusLabel.Text = "Ready...";
+
+            this.statusLabel.Text = "Ready...";
         }
 
         /// <summary>
@@ -210,7 +215,7 @@ namespace AOTooler
                     {
                         if (dock.Value.Contains(n3.N3MessageType))
                         {
-                            dock.Key.PushPacket(n3.N3MessageType, n3);
+                            dock.Key.PushPacket(n3.N3MessageType, n3, message);
                         }
                     }
                 }
@@ -227,17 +232,17 @@ namespace AOTooler
         /// </param>
         private void extractItemsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            folderBrowserDialog1.SelectedPath = "E:\\AOBeta";
+            this.folderBrowserDialog1.SelectedPath = "E:\\AOBeta";
             if (this.folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
                     ItemCollector ic = new ItemCollector(this.folderBrowserDialog1.SelectedPath);
-                    statusLabel.Text = "Extracting items and their icons";
+                    this.statusLabel.Text = "Extracting items and their icons";
                     this.Update();
-                    
+
                     ic.CollectItems();
-                    statusLabel.Text = "Ready...";
+                    this.statusLabel.Text = "Ready...";
                 }
                 catch (Exception ee)
                 {
@@ -246,10 +251,10 @@ namespace AOTooler
                         ItemCollector ic =
                             new ItemCollector(
                                 Path.Combine(this.folderBrowserDialog1.SelectedPath, "cd_image", "data", "db"));
-                        statusLabel.Text = "Extracting items and their icons";
+                        this.statusLabel.Text = "Extracting items and their icons";
                         this.Update();
                         ic.CollectItems();
-                        statusLabel.Text = "Ready...";
+                        this.statusLabel.Text = "Ready...";
                         return;
                     }
                     catch (Exception e2)
@@ -282,5 +287,10 @@ namespace AOTooler
         }
 
         #endregion
+
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

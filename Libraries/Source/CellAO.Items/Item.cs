@@ -34,11 +34,6 @@ namespace CellAO.Core.Items
 
     using CellAO.Core.Actions;
     using CellAO.Core.Events;
-    using CellAO.Core.Functions;
-    using CellAO.Core.Requirements;
-    using CellAO.Enums;
-
-    using MsgPack;
 
     using SmokeLounge.AOtomation.Messaging.GameData;
 
@@ -123,7 +118,6 @@ namespace CellAO.Core.Items
         /// </summary>
         public Identity Identity { get; set; }
 
-
         /// <summary>
         /// </summary>
         public int LowID
@@ -167,7 +161,6 @@ namespace CellAO.Core.Items
         #endregion
 
         #region Public Methods and Operators
-
 
         /// <summary>
         /// </summary>

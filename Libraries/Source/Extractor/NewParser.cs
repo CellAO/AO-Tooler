@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2005-2013, CellAO Team
+// Copyright (c) 2005-2014, CellAO Team
 // 
 // All rights reserved.
 // 
@@ -41,7 +41,6 @@ namespace Extractor_Serializer
     using CellAO.Enums;
 
     using MsgPack;
-    using Utility;
 
     #endregion
 
@@ -143,8 +142,6 @@ namespace Extractor_Serializer
         /// <param name="data">
         /// The data.
         /// </param>
-        /// <param name="itemnamessql">
-        /// </param>
         /// <returns>
         /// The <see cref="AOItem"/>.
         /// </returns>
@@ -195,7 +192,7 @@ namespace Extractor_Serializer
 
             if (num6 > 0)
             {
-                aoi.Description=this.br.ReadString(num6); 
+                aoi.Description = this.br.ReadString(num6);
             }
 
             bool flag4 = true;
@@ -228,12 +225,12 @@ namespace Extractor_Serializer
                             this.ParseAtkDefSet(aoi.Attack, aoi.Defend);
                             break;
                         case 6:
-                            {
-                                this.br.Skip(4);
-                                int count = this.br.Read3F1() * 8;
-                                this.br.Skip(count);
-                                break;
-                            }
+                        {
+                            this.br.Skip(4);
+                            int count = this.br.Read3F1() * 8;
+                            this.br.Skip(count);
+                            break;
+                        }
 
                         case 14:
                             this.ParseAnimSoundSet(1, aoi);
@@ -252,7 +249,7 @@ namespace Extractor_Serializer
                     }
 
                     continue;
-                IL_4BF:
+                    IL_4BF:
                     flag4 = false;
                 }
             }
@@ -465,14 +462,16 @@ namespace Extractor_Serializer
             if (flag)
             {
                 string hex = BitConverter.ToString(this.br.Buffer).Replace("-", " ");
-                string hexInLines = "";
+                string hexInLines = string.Empty;
                 while (hex.Length > 16 * 3)
                 {
                     hexInLines += hex.Substring(0, 16 * 3) + "\r\n";
                     hex = hex.Substring(16 * 3);
                 }
+
                 hexInLines += hex;
-                throw new IndexOutOfRangeException("Not handled function " + funcNum.ToString() + "\r\nData:\r\n" + hexInLines);
+                throw new IndexOutOfRangeException(
+                    "Not handled function " + funcNum.ToString() + "\r\nData:\r\n" + hexInLines);
             }
 
             string[] array = this.FunctionSets[funcNum.ToString()].Split(',');

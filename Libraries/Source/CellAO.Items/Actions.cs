@@ -32,7 +32,6 @@ namespace CellAO.Core.Actions
     using System.Collections.Generic;
 
     using CellAO.Core.Requirements;
-    using CellAO.Enums;
 
     #endregion
 
@@ -66,7 +65,6 @@ namespace CellAO.Core.Actions
         public List<Requirements> Requirements { get; set; }
 
         #endregion
-
 
         #region Methods
 

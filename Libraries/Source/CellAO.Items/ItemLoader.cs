@@ -32,7 +32,6 @@ namespace CellAO.Core.Items
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
 
-
     using Utility;
 
     #endregion

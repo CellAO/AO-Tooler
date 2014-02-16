@@ -89,7 +89,7 @@ namespace Script.Scripts.ExampleDock
         /// </param>
         /// <param name="message">
         /// </param>
-        public void PushPacket(N3MessageType type, N3Message message)
+        public void PushPacket(N3MessageType type, N3Message message, Message fullMessage)
         {
             switch (type)
             {
