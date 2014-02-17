@@ -89,6 +89,7 @@ namespace AOTooler
         /// <summary>
         /// </summary>
         private List<ItemTemplate> itemList = new List<ItemTemplate>();
+        public static bool Pinged;
 
         #endregion
 
@@ -143,6 +144,7 @@ namespace AOTooler
                 this.connectedLabel.Text = "Connected [" + processes[0].Id + "]";
                 this.statusLabel.Text = "Connected to Anarchy Online client";
                 this.PickupTimer.Enabled = true;
+                this.connectionTestTimer.Enabled = true;
             }
         }
 
@@ -312,5 +314,17 @@ namespace AOTooler
         }
 
         #endregion
+
+        private void connectionTestTimer_Tick(object sender, EventArgs e)
+        {
+            if (!Pinged)
+            {
+                connectionTestTimer.Enabled = false;
+                ConnectTimer.Enabled = true;
+                statusLabel.Text = "Connection lost";
+                connectedLabel.Text = "not connected";
+            }
+            Pinged = false;
+        }
     }
 }

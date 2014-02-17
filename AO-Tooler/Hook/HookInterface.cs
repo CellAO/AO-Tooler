@@ -63,6 +63,7 @@ namespace AOTooler.Hook
         /// </summary>
         public void Ping()
         {
+            MainWindow.Pinged = true;
         }
 
         /// <summary>
