@@ -45,6 +45,7 @@ namespace Script.Docks.Mission_Control
     /// </summary>
     public partial class Filter : DockContent
     {
+        public List<string> selectedItems = new List<string>();
         #region Constructors and Destructors
 
         /// <summary>
@@ -59,9 +60,11 @@ namespace Script.Docks.Mission_Control
 
             this.ItemSelector.BeginUpdate();
             ItemSelector.Items.Clear();
+            /*
             this.ItemSelector.Items.AddRange(ItemNames.instance.Names.ToArray());
             this.ItemSelector.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             this.ItemSelector.AutoCompleteSource = AutoCompleteSource.ListItems;
+             */
             this.ItemSelector.EndUpdate();
         }
 
@@ -80,7 +83,21 @@ namespace Script.Docks.Mission_Control
             if (!this.SelectedItemNames.Items.Contains(this.ItemSelector.Text))
             {
                 this.SelectedItemNames.Items.Add(this.ItemSelector.Text);
+                this.TransferToStatic();
             }
+        }
+
+        private void TransferToStatic()
+        {
+            lock (selectedItems)
+            {
+                selectedItems.Clear();
+                foreach (string s in this.SelectedItemNames.Items)
+                {
+                    selectedItems.Add(s.ToLower());
+                }
+            }
+
         }
 
         /// <summary>
@@ -94,6 +111,7 @@ namespace Script.Docks.Mission_Control
             if (this.SelectedItemNames.SelectedIndex >= 0)
             {
                 this.SelectedItemNames.Items.RemoveAt(this.SelectedItemNames.SelectedIndex);
+                this.TransferToStatic();
                 if (this.SelectedItemNames.Items.Count > 0)
                 {
                     this.SelectedItemNames.SelectedIndex = 0;
@@ -108,6 +126,8 @@ namespace Script.Docks.Mission_Control
             if (e.KeyChar == '\r')
             {
                 this.AddItemButtonClick(null, null);
+                ItemSelector.Text = "";
+                e.Handled = true;
             }
         }
     }

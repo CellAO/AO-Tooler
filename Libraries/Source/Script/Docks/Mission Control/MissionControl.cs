@@ -119,6 +119,7 @@ namespace Script.Scripts.Mission_Control
         /// </param>
         public void PushPacket(N3MessageType type, N3Message message, Message fullMessage)
         {
+            this.SuspendLayout();
             QuestAlternativeMessage mes = (QuestAlternativeMessage)message;
             this.ClearOldPanels();
             int i = 0;
@@ -186,6 +187,35 @@ namespace Script.Scripts.Mission_Control
             }
 
             this.AlignPanels();
+            this.CheckAgainstFilter(mes);
+            this.ResumeLayout();
+        }
+
+        private void CheckAgainstFilter(QuestAlternativeMessage mes)
+        {
+            List<string> temp = new List<string>();
+            lock
+                (filterWindow.selectedItems)
+            {
+                temp.AddRange(filterWindow.selectedItems.ToArray());
+            }
+
+            int panelNumber = 0;
+            foreach (QuestInfo qi in mes.QuestInfos)
+            {
+                panels[panelNumber].BackColor = SystemColors.Control;
+                foreach (QuestItemShort qis in qi.ItemRewards)
+                {
+                    foreach (string s in temp)
+                    {
+                        if (ItemLoader.ItemList[qis.HighId].ItemName.ToLower().IndexOf(s)>-1)
+                        {
+                            panels[panelNumber].BackColor = Color.Chartreuse;
+                        }
+                    }
+                }
+                panelNumber++;
+            }
         }
 
         #endregion
