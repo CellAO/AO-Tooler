@@ -63,6 +63,10 @@ namespace AOTooler
 
         /// <summary>
         /// </summary>
+        public static bool Pinged;
+
+        /// <summary>
+        /// </summary>
         private static Stack<byte[]> localDataStack = new Stack<byte[]>();
 
         /// <summary>
@@ -89,7 +93,6 @@ namespace AOTooler
         /// <summary>
         /// </summary>
         private List<ItemTemplate> itemList = new List<ItemTemplate>();
-        public static bool Pinged;
 
         #endregion
 
@@ -154,12 +157,67 @@ namespace AOTooler
         /// </param>
         /// <param name="e">
         /// </param>
+        private void ExtractItemsToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            this.folderBrowserDialog1.SelectedPath = "E:\\AOBeta";
+            if (this.folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    ItemCollector ic = new ItemCollector(this.folderBrowserDialog1.SelectedPath);
+                    this.statusLabel.Text = "Extracting items and their icons";
+                    this.Update();
+
+                    ic.CollectItems();
+                    this.statusLabel.Text = "Ready...";
+                }
+                catch (Exception ee)
+                {
+                    try
+                    {
+                        ItemCollector ic =
+                            new ItemCollector(
+                                Path.Combine(this.folderBrowserDialog1.SelectedPath, "cd_image", "data", "db"));
+                        this.statusLabel.Text = "Extracting items and their icons";
+                        this.Update();
+                        ic.CollectItems();
+                        this.statusLabel.Text = "Ready...";
+                        return;
+                    }
+                    catch (Exception e2)
+                    {
+                        MessageBox.Show(e2.Message);
+                        return;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        private void LoadItemsAndIcons()
+        {
+            this.statusLabel.Text = "Loading items...";
+            this.Update();
+            ItemLoader.CacheAllItems("items.dat");
+            ItemIcon.instance.Read("icons.dat");
+            PlayfieldList.instance.Read("playfields.dat");
+            ItemNames.instance.Read("itemnames.dat");
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
         private void MainWindowShown(object sender, EventArgs e)
         {
             this.CSC.Compile(true);
             this.CSC.AddScriptMembers();
 
-            if (File.Exists("items.dat") && File.Exists("icons.dat") && File.Exists("playfields.dat") && File.Exists("itemnames.dat"))
+            if (File.Exists("items.dat") && File.Exists("icons.dat") && File.Exists("playfields.dat")
+                && File.Exists("itemnames.dat"))
             {
                 this.LoadItemsAndIcons();
             }
@@ -178,17 +236,6 @@ namespace AOTooler
             }
 
             this.statusLabel.Text = "Ready...";
-        }
-
-        private void LoadItemsAndIcons()
-        {
-            this.statusLabel.Text = "Loading items...";
-            this.Update();
-            ItemLoader.CacheAllItems("items.dat");
-            ItemIcon.instance.Read("icons.dat");
-            PlayfieldList.instance.Read("playfields.dat");
-            ItemNames.instance.Read("itemnames.dat");
-
         }
 
         /// <summary>
@@ -257,40 +304,17 @@ namespace AOTooler
         /// </param>
         /// <param name="e">
         /// </param>
-        private void ExtractItemsToolStripMenuItemClick(object sender, EventArgs e)
+        private void connectionTestTimer_Tick(object sender, EventArgs e)
         {
-            this.folderBrowserDialog1.SelectedPath = "E:\\AOBeta";
-            if (this.folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            if (!Pinged)
             {
-                try
-                {
-                    ItemCollector ic = new ItemCollector(this.folderBrowserDialog1.SelectedPath);
-                    this.statusLabel.Text = "Extracting items and their icons";
-                    this.Update();
-
-                    ic.CollectItems();
-                    this.statusLabel.Text = "Ready...";
-                }
-                catch (Exception ee)
-                {
-                    try
-                    {
-                        ItemCollector ic =
-                            new ItemCollector(
-                                Path.Combine(this.folderBrowserDialog1.SelectedPath, "cd_image", "data", "db"));
-                        this.statusLabel.Text = "Extracting items and their icons";
-                        this.Update();
-                        ic.CollectItems();
-                        this.statusLabel.Text = "Ready...";
-                        return;
-                    }
-                    catch (Exception e2)
-                    {
-                        MessageBox.Show(e2.Message);
-                        return;
-                    }
-                }
+                this.connectionTestTimer.Enabled = false;
+                this.ConnectTimer.Enabled = true;
+                this.statusLabel.Text = "Connection lost";
+                this.connectedLabel.Text = "not connected";
             }
+
+            Pinged = false;
         }
 
         /// <summary>
@@ -314,17 +338,5 @@ namespace AOTooler
         }
 
         #endregion
-
-        private void connectionTestTimer_Tick(object sender, EventArgs e)
-        {
-            if (!Pinged)
-            {
-                connectionTestTimer.Enabled = false;
-                ConnectTimer.Enabled = true;
-                statusLabel.Text = "Connection lost";
-                connectedLabel.Text = "not connected";
-            }
-            Pinged = false;
-        }
     }
 }

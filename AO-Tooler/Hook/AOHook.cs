@@ -67,9 +67,10 @@ namespace AOTooler.Hook
                 if (IpcChannel == null)
                 {
                     IpcChannel = RemoteHooking.IpcCreateServer<HookInterface>(
-                        ref channelName,
+                        ref channelName, 
                         WellKnownObjectMode.Singleton);
                 }
+
                 RemoteHooking.Inject(processId, "AOInject.dll", "AOInject.dll", channelName);
 
                 return true;

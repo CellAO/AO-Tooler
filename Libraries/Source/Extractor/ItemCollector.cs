@@ -28,7 +28,6 @@ namespace Extractor
 {
     #region Usings ...
 
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -78,6 +77,7 @@ namespace Extractor
             List<ItemTemplate> items = new List<ItemTemplate>(this.extractor.GetRecordInstanceCount(1000020));
             NewParser parser = new NewParser();
             List<string> nameList = new List<string>(this.extractor.GetRecordInstanceCount(1000020));
+
             // Items = 10000020
             foreach (int recnum in this.extractor.GetRecordInstances(1000020))
             {
@@ -86,11 +86,13 @@ namespace Extractor
                 {
                     nameList.Add(itt.ItemName);
                 }
+
                 items.Add(itt);
             }
+
             nameList.Sort();
 
-            for (int i = nameList.Count-1; i >= 1; i--)
+            for (int i = nameList.Count - 1; i >= 1; i--)
             {
                 if (nameList[i] == nameList[i - 1])
                 {
@@ -113,24 +115,24 @@ namespace Extractor
             foreach (int recnum in this.extractor.GetRecordInstances(1010008))
             {
                 // Commented it because it wouldnt get mission icons
-                // if (itemsIconIds.Contains(recnum))
                 {
+                    // if (itemsIconIds.Contains(recnum))
                     icons.Add(recnum, this.extractor.GetRecordData(1010008, recnum));
                 }
             }
 
-            Dictionary<int,PlayfieldData> playfields = new Dictionary<int, PlayfieldData>(1000);
+            Dictionary<int, PlayfieldData> playfields = new Dictionary<int, PlayfieldData>(1000);
             foreach (int recnum in this.extractor.GetRecordInstances(1000001))
             {
                 playfields.Add(
-                    recnum,
+                    recnum, 
                     PlayfieldParser.ParsePlayfield(this.extractor.GetRecordData(1000001, recnum), recnum));
             }
 
             MessagePackZip.CompressData("icons.dat", string.Empty, icons);
             MessagePackZip.CompressData("items.dat", string.Empty, items);
             MessagePackZip.CompressData("playfields.dat", string.Empty, playfields);
-            MessagePackZip.CompressData("itemnames.dat",string.Empty,nameList);
+            MessagePackZip.CompressData("itemnames.dat", string.Empty, nameList);
             return items.Count();
         }
 
