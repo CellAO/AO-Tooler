@@ -66,6 +66,8 @@ namespace Script
         /// </param>
         /// <param name="message">
         /// </param>
+        /// <param name="fullMessage">
+        /// </param>
         void PushPacket(N3MessageType type, N3Message message, Message fullMessage);
 
         #endregion

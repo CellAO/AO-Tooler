@@ -114,8 +114,8 @@ namespace Extractor
             // Icons = 1010008
             foreach (int recnum in this.extractor.GetRecordInstances(1010008))
             {
-                // Commented it because it wouldnt get mission icons
                 {
+                    // Commented it because it wouldnt get mission icons
                     // if (itemsIconIds.Contains(recnum))
                     icons.Add(recnum, this.extractor.GetRecordData(1010008, recnum));
                 }

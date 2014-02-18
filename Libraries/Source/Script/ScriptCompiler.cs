@@ -100,13 +100,13 @@ namespace Script
                                                             .GetDirectoryName(
                                                                 Application
                                                             .ExecutablePath), 
-                                                            "Utility.dll"),
+                                                            "Utility.dll"), 
                                                         Path.Combine(
                                                             Path
                                                             .GetDirectoryName(
                                                                 Application
                                                             .ExecutablePath), 
-                                                            "CellAO.Items.dll"),
+                                                            "CellAO.Items.dll"), 
                                                         Path.Combine(
                                                             Path
                                                             .GetDirectoryName(

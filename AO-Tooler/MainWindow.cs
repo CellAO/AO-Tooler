@@ -144,6 +144,7 @@ namespace AOTooler
 
             if (AOHook.Inject(processes[0].Id))
             {
+                AOData.AOProcess = processes[0];
                 this.connectedLabel.Text = "Connected [" + processes[0].Id + "]";
                 this.statusLabel.Text = "Connected to Anarchy Online client";
                 this.PickupTimer.Enabled = true;

@@ -57,11 +57,27 @@ namespace Script.Scripts.Mission_Control
 
         /// <summary>
         /// </summary>
+        private Point AcceptMission = new Point(69, 327);
+
+        /// <summary>
+        /// </summary>
+        private Point ReqestMission = new Point(69, 187);
+
+        /// <summary>
+        /// </summary>
         private Filter filterWindow = null;
 
         /// <summary>
         /// </summary>
         private int iconCounter = 0;
+
+        /// <summary>
+        /// </summary>
+        private Point[] missionLocation = new[]
+                                          {
+                                              new Point(44, 57), new Point(100, 57), new Point(159, 57), 
+                                              new Point(44, 116), new Point(100, 116)
+                                          };
 
         /// <summary>
         /// </summary>
@@ -223,10 +239,14 @@ namespace Script.Scripts.Mission_Control
                 temp.AddRange(this.filterWindow.selectedItems.ToArray());
             }
 
+            for (int i = 0; i < 5; i++)
+            {
+                this.panels[i].BackColor = SystemColors.Control;
+            }
+
             int panelNumber = 0;
             foreach (QuestInfo qi in mes.QuestInfos)
             {
-                this.panels[panelNumber].BackColor = SystemColors.Control;
                 foreach (QuestItemShort qis in qi.ItemRewards)
                 {
                     foreach (string s in temp)
@@ -234,11 +254,19 @@ namespace Script.Scripts.Mission_Control
                         if (ItemLoader.ItemList[qis.HighId].ItemName.ToLower().IndexOf(s) > -1)
                         {
                             this.panels[panelNumber].BackColor = Color.Chartreuse;
+                            AOData.Click(this.missionLocation[panelNumber]);
+                            AOData.MoveMouseTo(this.AcceptMission.X, this.AcceptMission.Y);
+                            return;
                         }
                     }
                 }
 
                 panelNumber++;
+            }
+
+            if (temp.Count > 0)
+            {
+                AOData.Click(this.ReqestMission);
             }
         }
 
