@@ -88,6 +88,10 @@ namespace AOTooler
 
         /// <summary>
         /// </summary>
+        private List<DockContent> dockList = new List<DockContent>();
+
+        /// <summary>
+        /// </summary>
         private Dictionary<int, byte[]> iconDict = new Dictionary<int, byte[]>();
 
         /// <summary>
@@ -158,6 +162,44 @@ namespace AOTooler
         /// </param>
         /// <param name="e">
         /// </param>
+        private void ConnectionTestTimerTick(object sender, EventArgs e)
+        {
+            if (!Pinged)
+            {
+                this.connectionTestTimer.Enabled = false;
+                this.ConnectTimer.Enabled = true;
+                this.statusLabel.Text = "Connection lost";
+                this.connectedLabel.Text = "not connected";
+            }
+
+            Pinged = false;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="persistString">
+        /// </param>
+        /// <returns>
+        /// </returns>
+        private IDockContent DockCallBack(string persistString)
+        {
+            foreach (DockContent dc in this.dockList)
+            {
+                if (dc.GetType().ToString() == persistString)
+                {
+                    return dc;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
         private void ExtractItemsToolStripMenuItemClick(object sender, EventArgs e)
         {
             this.folderBrowserDialog1.SelectedPath = "E:\\AOBeta";
@@ -196,6 +238,16 @@ namespace AOTooler
 
         /// <summary>
         /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        private void FolderBrowserDialog1HelpRequest(object sender, EventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// </summary>
         private void LoadItemsAndIcons()
         {
             this.statusLabel.Text = "Loading items...";
@@ -212,10 +264,50 @@ namespace AOTooler
         /// </param>
         /// <param name="e">
         /// </param>
+        private void MainWindowFormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.MainDock.SaveAsXml("AO-Tooler.xml");
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        private void MainWindowLoad(object sender, EventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
         private void MainWindowShown(object sender, EventArgs e)
         {
+            bool configFound = false;
             this.CSC.Compile(true);
             this.CSC.AddScriptMembers();
+            if (File.Exists("AO-Tooler.xml"))
+            {
+                foreach (Assembly assembly in this.CSC.multipleDllList)
+                {
+                    IAOToolerScript dock = ScriptCompiler.RunScript(assembly);
+                    this.dockList.AddRange(dock.ReturnDocks());
+                }
+
+                DeserializeDockContent ddc = new DeserializeDockContent(this.DockCallBack);
+
+                this.MainDock.LoadFromXml("AO-Tooler.xml", ddc);
+                foreach (DockContent dc in this.dockList)
+                {
+                    dc.Update();
+                }
+
+                configFound = true;
+            }
 
             if (File.Exists("items.dat") && File.Exists("icons.dat") && File.Exists("playfields.dat")
                 && File.Exists("itemnames.dat"))
@@ -229,11 +321,14 @@ namespace AOTooler
                 this.LoadItemsAndIcons();
             }
 
-            foreach (Assembly assembly in this.CSC.multipleDllList)
+            if (!configFound)
             {
-                IAOToolerScript dock = ScriptCompiler.RunScript(assembly);
-                ((IDockContent)dock).DockHandler.Show(this.MainDock, dock.PreferredDockState());
-                this.DockWatch.Add(dock, dock.GetPacketWatcherList());
+                foreach (Assembly assembly in this.CSC.multipleDllList)
+                {
+                    IAOToolerScript dock = ScriptCompiler.RunScript(assembly);
+                    ((IDockContent)dock).DockHandler.Show(this.MainDock, dock.PreferredDockState());
+                    this.DockWatch.Add(dock, dock.GetPacketWatcherList());
+                }
             }
 
             this.statusLabel.Text = "Ready...";
@@ -245,17 +340,7 @@ namespace AOTooler
         /// </param>
         /// <param name="e">
         /// </param>
-        private void MainWindow_Load(object sender, EventArgs e)
-        {
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void PickupTimer_Tick(object sender, EventArgs e)
+        private void PickupTimerTick(object sender, EventArgs e)
         {
             this.PickupTimer.Enabled = false;
             byte[][] packets;
@@ -297,35 +382,6 @@ namespace AOTooler
             }
 
             this.PickupTimer.Enabled = true;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void connectionTestTimer_Tick(object sender, EventArgs e)
-        {
-            if (!Pinged)
-            {
-                this.connectionTestTimer.Enabled = false;
-                this.ConnectTimer.Enabled = true;
-                this.statusLabel.Text = "Connection lost";
-                this.connectedLabel.Text = "not connected";
-            }
-
-            Pinged = false;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
-        {
         }
 
         /// <summary>

@@ -53,14 +53,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Docks\ExampleDock\ExampleDock.cs">
+    <Compile Include="Docks\ExampleDock\ExampleDock.cs">
       <SubType>Form</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Docks\ExampleDock\ExampleDock.Designer.cs">
+    </Compile>
+    <Compile Include="Docks\ExampleDock\ExampleDock.Designer.cs">
       <DependentUpon>ExampleDock.cs</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </Compile>
     <Compile Include="Docks\Mission Control\Filter.cs">
       <SubType>Form</SubType>
     </Compile>

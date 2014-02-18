@@ -1,4 +1,4 @@
-﻿namespace Script.Scripts.ExampleDock
+﻿namespace Script.Docks.ExampleDock
 {
     partial class ExampleDock
     {

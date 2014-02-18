@@ -1,4 +1,4 @@
-﻿namespace Script.Scripts.Mission_Control
+﻿namespace Script.Docks.Mission_Control
 {
     partial class MissionControl
     {

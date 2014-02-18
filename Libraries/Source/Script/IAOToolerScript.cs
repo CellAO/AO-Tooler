@@ -70,6 +70,12 @@ namespace Script
         /// </param>
         void PushPacket(N3MessageType type, N3Message message, Message fullMessage);
 
+        /// <summary>
+        /// </summary>
+        /// <returns>
+        /// </returns>
+        DockContent[] ReturnDocks();
+
         #endregion
     }
 }

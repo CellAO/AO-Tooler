@@ -24,7 +24,7 @@
 
 #endregion
 
-namespace Script.Scripts.ExampleDock
+namespace Script.Docks.ExampleDock
 {
     #region Usings ...
 
@@ -100,6 +100,11 @@ namespace Script.Scripts.ExampleDock
                                          + moveMessage.Coordinates.Z.ToString("0.0");
                     break;
             }
+        }
+
+        public DockContent[] ReturnDocks()
+        {
+            return new DockContent[]{this};
         }
 
         #endregion
