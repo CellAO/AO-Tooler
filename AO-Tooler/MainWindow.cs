@@ -99,6 +99,7 @@ namespace AOTooler
         public MainWindow()
         {
             this.InitializeComponent();
+            this.Text = "AO-Tooler V" + Assembly.GetExecutingAssembly().GetName().Version;
             serializer = new MessageSerializer();
         }
 
@@ -206,7 +207,7 @@ namespace AOTooler
                     ic.CollectItems();
                     this.statusLabel.Text = "Ready...";
                 }
-                catch (Exception ee)
+                catch (Exception)
                 {
                     try
                     {
@@ -235,6 +236,7 @@ namespace AOTooler
             this.statusLabel.Text = "Loading items...";
             this.Update();
             ItemLoader.CacheAllItems("items.dat");
+            this.Text = this.Text + " - AO Client " + MessagePackZip.Version;
             ItemIcon.instance.Read("icons.dat");
             PlayfieldList.instance.Read("playfields.dat");
             ItemNames.instance.Read("itemnames.dat");

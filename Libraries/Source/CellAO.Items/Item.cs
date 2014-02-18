@@ -57,14 +57,6 @@ namespace CellAO.Core.Items
         /// </summary>
         private readonly ItemTemplate templateLow;
 
-        /// <summary>
-        /// </summary>
-        private List<Actions> actions = null;
-
-        /// <summary>
-        /// </summary>
-        private List<Events> events = null;
-
         #endregion
 
         #region Constructors and Destructors

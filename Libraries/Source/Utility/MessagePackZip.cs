@@ -33,6 +33,8 @@ namespace Utility
     using System.IO;
     using System.Text;
 
+    using Microsoft.SqlServer.Server;
+
     using MsgPack.Serialization;
 
     using zlib;
@@ -56,6 +58,8 @@ namespace Utility
         /// <summary>
         /// </summary>
         private static byte[] copyBuffer = new byte[CopyBufferLength];
+
+        public static string Version = "unknown";
 
         #endregion
 
@@ -224,6 +228,7 @@ namespace Utility
             byte versionlength = (byte)memoryStream.ReadByte();
             char[] version = new char[versionlength];
             version = binaryReader.ReadChars(versionlength);
+            Version = new string(version);
 
             // TODO: Check version and print a warning if not same as config.xml's
             MessagePackSerializer<List<T>> messagePackSerializer = MessagePackSerializer.Create<List<T>>();
@@ -275,6 +280,7 @@ namespace Utility
             byte versionlength = (byte)memoryStream.ReadByte();
             char[] version = new char[versionlength];
             version = binaryReader.ReadChars(versionlength);
+            Version = new string(version);
 
             // TODO: Check version and print a warning if not same as config.xml's
             MessagePackSerializer<Dictionary<T, TU>> messagePackSerializer =
