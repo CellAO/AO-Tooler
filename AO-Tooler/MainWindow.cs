@@ -90,14 +90,6 @@ namespace AOTooler
         /// </summary>
         private List<DockContent> dockList = new List<DockContent>();
 
-        /// <summary>
-        /// </summary>
-        private Dictionary<int, byte[]> iconDict = new Dictionary<int, byte[]>();
-
-        /// <summary>
-        /// </summary>
-        private List<ItemTemplate> itemList = new List<ItemTemplate>();
-
         #endregion
 
         #region Constructors and Destructors
@@ -238,16 +230,6 @@ namespace AOTooler
 
         /// <summary>
         /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void FolderBrowserDialog1HelpRequest(object sender, EventArgs e)
-        {
-        }
-
-        /// <summary>
-        /// </summary>
         private void LoadItemsAndIcons()
         {
             this.statusLabel.Text = "Loading items...";
@@ -267,16 +249,6 @@ namespace AOTooler
         private void MainWindowFormClosing(object sender, FormClosingEventArgs e)
         {
             this.MainDock.SaveAsXml("AO-Tooler.xml");
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void MainWindowLoad(object sender, EventArgs e)
-        {
         }
 
         /// <summary>
@@ -382,16 +354,6 @@ namespace AOTooler
             }
 
             this.PickupTimer.Enabled = true;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender">
-        /// </param>
-        /// <param name="e">
-        /// </param>
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
         }
 
         #endregion
