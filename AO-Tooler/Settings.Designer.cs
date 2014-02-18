@@ -1,8 +1,6 @@
 ﻿namespace AOTooler
 {
-    using WeifenLuo.WinFormsUI.Docking;
-
-    partial class MainWindow
+    partial class Settings
     {
         /// <summary>
         /// Required designer variable.
@@ -15,9 +13,9 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (this.components != null))
+            if (disposing && (components != null))
             {
-                this.components.Dispose();
+                components.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -30,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             WeifenLuo.WinFormsUI.Docking.DockPanelSkin dockPanelSkin1 = new WeifenLuo.WinFormsUI.Docking.DockPanelSkin();
             WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin autoHideStripSkin1 = new WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin();
             WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient1 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
@@ -46,74 +43,21 @@
             WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient3 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
             WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient6 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
             WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient7 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.statusProgress = new System.Windows.Forms.ToolStripProgressBar();
-            this.connectedLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.ConnectTimer = new System.Windows.Forms.Timer(this.components);
+            this.dockPanel1 = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.vS2012LightTheme1 = new WeifenLuo.WinFormsUI.Docking.VS2012LightTheme();
-            this.MainDock = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-            this.PickupTimer = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.extractItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DockMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.vS2005Theme1 = new WeifenLuo.WinFormsUI.Docking.VS2005Theme();
-            this.vS2003Theme1 = new WeifenLuo.WinFormsUI.Docking.VS2003Theme();
-            this.connectionTestTimer = new System.Windows.Forms.Timer(this.components);
-            this.statusStrip1.SuspendLayout();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cancelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // statusStrip1
+            // dockPanel1
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statusLabel,
-            this.statusProgress,
-            this.connectedLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 432);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(848, 22);
-            this.statusStrip1.TabIndex = 0;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // statusLabel
-            // 
-            this.statusLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(747, 17);
-            this.statusLabel.Spring = true;
-            this.statusLabel.Text = "Waiting for AnarchyOnline client";
-            this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // statusProgress
-            // 
-            this.statusProgress.Name = "statusProgress";
-            this.statusProgress.Size = new System.Drawing.Size(100, 16);
-            this.statusProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.statusProgress.Visible = false;
-            // 
-            // connectedLabel
-            // 
-            this.connectedLabel.Name = "connectedLabel";
-            this.connectedLabel.Size = new System.Drawing.Size(86, 17);
-            this.connectedLabel.Text = "Not connected";
-            // 
-            // ConnectTimer
-            // 
-            this.ConnectTimer.Enabled = true;
-            this.ConnectTimer.Interval = 1000;
-            this.ConnectTimer.Tick += new System.EventHandler(this.ConnectTimerTick);
-            // 
-            // MainDock
-            // 
-            this.MainDock.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainDock.Location = new System.Drawing.Point(0, 24);
-            this.MainDock.Name = "MainDock";
-            this.MainDock.Size = new System.Drawing.Size(848, 408);
+            this.dockPanel1.AutoScroll = true;
+            this.dockPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dockPanel1.Location = new System.Drawing.Point(0, 24);
+            this.dockPanel1.Name = "dockPanel1";
+            this.dockPanel1.Size = new System.Drawing.Size(502, 494);
             dockPanelGradient1.EndColor = System.Drawing.SystemColors.ControlLight;
             dockPanelGradient1.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
             autoHideStripSkin1.DockStripGradient = dockPanelGradient1;
@@ -159,77 +103,47 @@
             dockPaneStripToolWindowGradient1.InactiveTabGradient = tabGradient7;
             dockPaneStripSkin1.ToolWindowGradient = dockPaneStripToolWindowGradient1;
             dockPanelSkin1.DockPaneStripSkin = dockPaneStripSkin1;
-            this.MainDock.Skin = dockPanelSkin1;
-            this.MainDock.TabIndex = 1;
-            this.MainDock.Theme = this.vS2012LightTheme1;
-            // 
-            // PickupTimer
-            // 
-            this.PickupTimer.Interval = 60;
-            this.PickupTimer.Tick += new System.EventHandler(this.PickupTimerTick);
+            this.dockPanel1.Skin = dockPanelSkin1;
+            this.dockPanel1.TabIndex = 0;
+            this.dockPanel1.Theme = this.vS2012LightTheme1;
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.DockMenuItem,
-            this.settingsToolStripMenuItem});
+            this.saveToolStripMenuItem,
+            this.cancelToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(848, 24);
-            this.menuStrip1.TabIndex = 4;
+            this.menuStrip1.Size = new System.Drawing.Size(502, 24);
+            this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // fileToolStripMenuItem
+            // saveToolStripMenuItem
             // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.extractItemsToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.SaveClick);
             // 
-            // extractItemsToolStripMenuItem
+            // cancelToolStripMenuItem
             // 
-            this.extractItemsToolStripMenuItem.Name = "extractItemsToolStripMenuItem";
-            this.extractItemsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
-            this.extractItemsToolStripMenuItem.Text = "Extract Items";
-            this.extractItemsToolStripMenuItem.Click += new System.EventHandler(this.ExtractItemsToolStripMenuItemClick);
+            this.cancelToolStripMenuItem.Name = "cancelToolStripMenuItem";
+            this.cancelToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
+            this.cancelToolStripMenuItem.Text = "Cancel";
+            this.cancelToolStripMenuItem.Click += new System.EventHandler(this.CancelClick);
             // 
-            // DockMenuItem
-            // 
-            this.DockMenuItem.Name = "DockMenuItem";
-            this.DockMenuItem.Size = new System.Drawing.Size(68, 20);
-            this.DockMenuItem.Text = "Windows";
-            // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.settingsToolStripMenuItem.Text = "Settings";
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItemClick);
-            // 
-            // connectionTestTimer
-            // 
-            this.connectionTestTimer.Interval = 3000;
-            this.connectionTestTimer.Tick += new System.EventHandler(this.ConnectionTestTimerTick);
-            // 
-            // MainWindow
+            // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(848, 454);
-            this.Controls.Add(this.MainDock);
-            this.Controls.Add(this.statusStrip1);
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(502, 518);
+            this.Controls.Add(this.dockPanel1);
             this.Controls.Add(this.menuStrip1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "MainWindow";
-            this.Text = "AO-Tooler";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindowFormClosing);
-            this.Shown += new System.EventHandler(this.MainWindowShown);
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            this.Name = "Settings";
+            this.Text = "Settings";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -239,23 +153,10 @@
 
         #endregion
 
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel statusLabel;
-        private System.Windows.Forms.ToolStripStatusLabel connectedLabel;
-        private System.Windows.Forms.Timer ConnectTimer;
+        private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel1;
         private WeifenLuo.WinFormsUI.Docking.VS2012LightTheme vS2012LightTheme1;
-        private WeifenLuo.WinFormsUI.Docking.DockPanel MainDock;
-        private System.Windows.Forms.Timer PickupTimer;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem extractItemsToolStripMenuItem;
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private VS2005Theme vS2005Theme1;
-        private VS2003Theme vS2003Theme1;
-        private System.Windows.Forms.Timer connectionTestTimer;
-        private System.Windows.Forms.ToolStripProgressBar statusProgress;
-        private System.Windows.Forms.ToolStripMenuItem DockMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cancelToolStripMenuItem;
     }
 }
-

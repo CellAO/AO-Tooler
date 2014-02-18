@@ -35,8 +35,6 @@ namespace Script.Docks.Mission_Control
 
     using CellAO.Core.Items;
 
-    using Script.Docks.Mission_Control;
-
     using SmokeLounge.AOtomation.Messaging.GameData;
     using SmokeLounge.AOtomation.Messaging.Messages;
     using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
@@ -66,6 +64,10 @@ namespace Script.Docks.Mission_Control
         /// <summary>
         /// </summary>
         private Filter filterWindow = null;
+
+        /// <summary>
+        /// </summary>
+        private MissionControlSettings missionControlSettings;
 
         /// <summary>
         /// </summary>
@@ -106,6 +108,15 @@ namespace Script.Docks.Mission_Control
 
         /// <summary>
         /// </summary>
+        /// <returns>
+        /// </returns>
+        public DockContent GetSettingsDock()
+        {
+            return this.missionControlSettings;
+        }
+
+        /// <summary>
+        /// </summary>
         /// <param name="args">
         /// </param>
         public void Initialize(string[] args)
@@ -116,6 +127,7 @@ namespace Script.Docks.Mission_Control
             this.panels[3] = this.panel4;
             this.panels[4] = this.panel5;
             this.filterWindow = new Filter();
+            this.missionControlSettings = new MissionControlSettings();
         }
 
         /// <summary>
@@ -151,9 +163,9 @@ namespace Script.Docks.Mission_Control
                 missionIcon.Image = ItemIcon.instance.Get(qi.MissionIconId);
                 Label l1 = new Label
                            {
-                               Text = "Location: " + this.GetLocationOfMission(qi),
-                               Left = 58,
-                               Top = 5,
+                               Text = "Location: " + this.GetLocationOfMission(qi), 
+                               Left = 58, 
+                               Top = 5, 
                                AutoSize = true
                            };
                 this.panels[i].Controls.Add(l1);
@@ -166,9 +178,9 @@ namespace Script.Docks.Mission_Control
 
                 Label l2 = new Label
                            {
-                               Left = 58,
-                               Top = l1.Top + l1.Height + 5,
-                               AutoSize = true,
+                               Left = 58, 
+                               Top = l1.Top + l1.Height + 5, 
+                               AutoSize = true, 
                                Text =
                                    "Cash/Cash from Items/XP: " + qi.CashReward + "/" + cashfromItems + "/"
                                    + qi.ExperienceReward
@@ -180,23 +192,23 @@ namespace Script.Docks.Mission_Control
                 {
                     PictureBox itemIcon = new PictureBox
                                           {
-                                              Size = new Size(48, 48),
-                                              Top = 5 + item * 53,
-                                              Left = 380,
+                                              Size = new Size(48, 48), 
+                                              Top = 5 + item * 53, 
+                                              Left = 380, 
                                               Image = ItemLoader.ItemList[qis.HighId].GetIcon()
                                           };
                     this.panels[i].Controls.Add(itemIcon);
                     Label l3 = new Label
                                {
-                                   Top = itemIcon.Top,
-                                   AutoSize = true,
-                                   Text = ItemLoader.ItemList[qis.HighId].ItemName + " (QL " + qis.Quality + ")",
+                                   Top = itemIcon.Top, 
+                                   AutoSize = true, 
+                                   Text = ItemLoader.ItemList[qis.HighId].ItemName + " (QL " + qis.Quality + ")", 
                                    Left = 380 + 48 + 5
                                };
                     this.panels[i].Controls.Add(l3);
                     Label l4 = new Label
                                {
-                                   Top = l3.Top + l3.Height + 5,
+                                   Top = l3.Top + l3.Height + 5, 
                                    Text = "Worth: " + ItemLoader.ItemList[qis.HighId].getItemAttribute(61)
                                };
                     item++;
@@ -210,9 +222,13 @@ namespace Script.Docks.Mission_Control
             this.ResumeLayout();
         }
 
+        /// <summary>
+        /// </summary>
+        /// <returns>
+        /// </returns>
         public DockContent[] ReturnDocks()
         {
-            return new DockContent[] { this, filterWindow };
+            return new DockContent[] { this, this.filterWindow };
         }
 
         #endregion
@@ -292,8 +308,8 @@ namespace Script.Docks.Mission_Control
         {
             return PlayfieldList.instance.Get(qi.QuestActions[0].Playfield.Instance).Name
                    + string.Format(
-                       " ({0}, {1})",
-                       qi.QuestActions[0].X.ToString("0.0"),
+                       " ({0}, {1})", 
+                       qi.QuestActions[0].X.ToString("0.0"), 
                        qi.QuestActions[0].Z.ToString("0.0"));
         }
 

@@ -63,6 +63,10 @@ namespace AOTooler
 
         /// <summary>
         /// </summary>
+        public static List<DockContent> DockList = new List<DockContent>();
+
+        /// <summary>
+        /// </summary>
         public static bool Pinged;
 
         /// <summary>
@@ -85,10 +89,6 @@ namespace AOTooler
         /// </summary>
         private Dictionary<IAOToolerScript, List<N3MessageType>> DockWatch =
             new Dictionary<IAOToolerScript, List<N3MessageType>>();
-
-        /// <summary>
-        /// </summary>
-        private List<DockContent> dockList = new List<DockContent>();
 
         #endregion
 
@@ -176,7 +176,7 @@ namespace AOTooler
         /// </returns>
         private IDockContent DockCallBack(string persistString)
         {
-            foreach (DockContent dc in this.dockList)
+            foreach (DockContent dc in DockList)
             {
                 if (dc.GetType().ToString() == persistString)
                 {
@@ -269,13 +269,13 @@ namespace AOTooler
                 foreach (Assembly assembly in this.CSC.multipleDllList)
                 {
                     IAOToolerScript dock = ScriptCompiler.RunScript(assembly);
-                    this.dockList.AddRange(dock.ReturnDocks());
+                    DockList.AddRange(dock.ReturnDocks());
                 }
 
                 DeserializeDockContent ddc = new DeserializeDockContent(this.DockCallBack);
 
                 this.MainDock.LoadFromXml("AO-Tooler.xml", ddc);
-                foreach (DockContent dc in this.dockList)
+                foreach (DockContent dc in DockList)
                 {
                     dc.Update();
                     ToolStripMenuItem mi = new ToolStripMenuItem(dc.Name);
@@ -368,11 +368,24 @@ namespace AOTooler
         /// </param>
         /// <param name="e">
         /// </param>
+        private void SettingsToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            Settings settingsWindow = new Settings();
+            settingsWindow.FillSettingsWindow();
+            settingsWindow.ShowDialog();
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
         private void ShowHide(object sender, EventArgs e)
         {
             ToolStripMenuItem tsmi = (ToolStripMenuItem)sender;
 
-            foreach (DockContent dock in this.dockList)
+            foreach (DockContent dock in DockList)
             {
                 if (dock.Name == tsmi.Text)
                 {

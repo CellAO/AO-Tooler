@@ -67,6 +67,13 @@
     <Compile Include="Docks\Mission Control\Filter.Designer.cs">
       <DependentUpon>Filter.cs</DependentUpon>
     </Compile>
+    <Compile Include="Docks\Mission Control\IAOToolerScriptSettings.cs" />
+    <Compile Include="Docks\Mission Control\MissionControlSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Docks\Mission Control\MissionControlSettings.Designer.cs">
+      <DependentUpon>MissionControlSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Docks\Mission Control\MissionControl.cs">
       <SubType>Form</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -76,6 +83,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="IAOToolerScript.cs" />
+    <Compile Include="IAOToolerScriptSettings.cs" />
     <Compile Include="ScriptCompiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -111,6 +119,9 @@
     <EmbeddedResource Include="Docks\Mission Control\MissionControl.resx">
       <DependentUpon>MissionControl.cs</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Docks\Mission Control\MissionControlSettings.resx">
+      <DependentUpon>MissionControlSettings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

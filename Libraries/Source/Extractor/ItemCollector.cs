@@ -52,11 +52,13 @@ namespace Extractor
         /// </summary>
         private Extractor extractor;
 
+        /// <summary>
+        /// </summary>
+        private string version = "unknown";
+
         #endregion
 
         #region Constructors and Destructors
-
-        private string version = "unknown";
 
         /// <summary>
         /// </summary>
@@ -138,10 +140,10 @@ namespace Extractor
                     PlayfieldParser.ParsePlayfield(this.extractor.GetRecordData(1000001, recnum), recnum));
             }
 
-            MessagePackZip.CompressData("icons.dat", version, icons);
-            MessagePackZip.CompressData("items.dat", version, items);
-            MessagePackZip.CompressData("playfields.dat", version, playfields);
-            MessagePackZip.CompressData("itemnames.dat", version, nameList);
+            MessagePackZip.CompressData("icons.dat", this.version, icons);
+            MessagePackZip.CompressData("items.dat", this.version, items);
+            MessagePackZip.CompressData("playfields.dat", this.version, playfields);
+            MessagePackZip.CompressData("itemnames.dat", this.version, nameList);
             return items.Count();
         }
 

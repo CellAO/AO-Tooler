@@ -24,13 +24,17 @@
 
 #endregion
 
-namespace Script
+namespace AOTooler
 {
     #region Usings ...
 
+    using System;
     using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Windows.Forms;
 
-    using SmokeLounge.AOtomation.Messaging.Messages;
+    using Script;
 
     using WeifenLuo.WinFormsUI.Docking;
 
@@ -38,49 +42,72 @@ namespace Script
 
     /// <summary>
     /// </summary>
-    public interface IAOToolerScript : IDockContent
+    public partial class Settings : Form
     {
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// </summary>
+        public Settings()
+        {
+            this.InitializeComponent();
+        }
+
+        #endregion
+
         #region Public Methods and Operators
 
         /// <summary>
         /// </summary>
-        /// <returns>
-        /// </returns>
-        List<N3MessageType> GetPacketWatcherList();
+        public void FillSettingsWindow()
+        {
+            foreach (DockContent dc in MainWindow.DockList.Where(x => x is IAOToolerScript))
+            {
+                if (((IAOToolerScript)dc).GetSettingsDock() != null)
+                {
+                    ((IAOToolerScript)dc).GetSettingsDock().Show(this.dockPanel1, DockState.Document);
+                }
+            }
+        }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// </summary>
-        /// <returns>
-        /// </returns>
-        DockContent GetSettingsDock();
-
-        /// <summary>
-        /// </summary>
-        /// <param name="args">
+        /// <param name="sender">
         /// </param>
-        void Initialize(string[] args);
+        /// <param name="e">
+        /// </param>
+        private void CancelClick(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
         /// <summary>
         /// </summary>
-        /// <returns>
-        /// </returns>
-        DockState PreferredDockState();
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        private void SaveClick(object sender, EventArgs e)
+        {
+            TextWriter tw = new StreamWriter("AOTooler Settings.cfg", false);
+            foreach (IAOToolerScript dc in MainWindow.DockList.Where(x => x is IAOToolerScript))
+            {
+                if (dc.GetSettingsDock() != null)
+                {
+                    foreach (KeyValuePair<string, string> kv in ((IAOToolerScriptSettings)dc.GetSettingsDock()).Get())
+                    {
+                        tw.WriteLine(((DockContent)dc).Name + "|" + kv.Key + "=" + kv.Value);
+                    }
+                }
+            }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="type">
-        /// </param>
-        /// <param name="message">
-        /// </param>
-        /// <param name="fullMessage">
-        /// </param>
-        void PushPacket(N3MessageType type, N3Message message, Message fullMessage);
-
-        /// <summary>
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        DockContent[] ReturnDocks();
+            tw.Close();
+            this.Close();
+        }
 
         #endregion
     }

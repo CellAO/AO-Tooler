@@ -33,8 +33,6 @@ namespace Utility
     using System.IO;
     using System.Text;
 
-    using Microsoft.SqlServer.Server;
-
     using MsgPack.Serialization;
 
     using zlib;
@@ -57,9 +55,11 @@ namespace Utility
 
         /// <summary>
         /// </summary>
-        private static byte[] copyBuffer = new byte[CopyBufferLength];
-
         public static string Version = "unknown";
+
+        /// <summary>
+        /// </summary>
+        private static byte[] copyBuffer = new byte[CopyBufferLength];
 
         #endregion
 

@@ -67,6 +67,15 @@ namespace Script.Docks.ExampleDock
 
         /// <summary>
         /// </summary>
+        /// <returns>
+        /// </returns>
+        public DockContent GetSettingsDock()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// </summary>
         /// <param name="args">
         /// </param>
         public void Initialize(string[] args)
@@ -89,6 +98,8 @@ namespace Script.Docks.ExampleDock
         /// </param>
         /// <param name="message">
         /// </param>
+        /// <param name="fullMessage">
+        /// </param>
         public void PushPacket(N3MessageType type, N3Message message, Message fullMessage)
         {
             switch (type)
@@ -102,9 +113,13 @@ namespace Script.Docks.ExampleDock
             }
         }
 
+        /// <summary>
+        /// </summary>
+        /// <returns>
+        /// </returns>
         public DockContent[] ReturnDocks()
         {
-            return new DockContent[]{this};
+            return new DockContent[] { this };
         }
 
         #endregion

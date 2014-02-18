@@ -30,15 +30,11 @@ namespace Script
 
     using System.Collections.Generic;
 
-    using SmokeLounge.AOtomation.Messaging.Messages;
-
-    using WeifenLuo.WinFormsUI.Docking;
-
     #endregion
 
     /// <summary>
     /// </summary>
-    public interface IAOToolerScript : IDockContent
+    public interface IAOToolerScriptSettings
     {
         #region Public Methods and Operators
 
@@ -46,41 +42,13 @@ namespace Script
         /// </summary>
         /// <returns>
         /// </returns>
-        List<N3MessageType> GetPacketWatcherList();
+        Dictionary<string, string> Get();
 
         /// <summary>
         /// </summary>
-        /// <returns>
-        /// </returns>
-        DockContent GetSettingsDock();
-
-        /// <summary>
-        /// </summary>
-        /// <param name="args">
+        /// <param name="settings">
         /// </param>
-        void Initialize(string[] args);
-
-        /// <summary>
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        DockState PreferredDockState();
-
-        /// <summary>
-        /// </summary>
-        /// <param name="type">
-        /// </param>
-        /// <param name="message">
-        /// </param>
-        /// <param name="fullMessage">
-        /// </param>
-        void PushPacket(N3MessageType type, N3Message message, Message fullMessage);
-
-        /// <summary>
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        DockContent[] ReturnDocks();
+        void Set(Dictionary<string, string> settings);
 
         #endregion
     }

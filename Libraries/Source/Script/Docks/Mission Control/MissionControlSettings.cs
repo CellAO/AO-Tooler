@@ -24,13 +24,12 @@
 
 #endregion
 
-namespace Script
+namespace Script.Docks.Mission_Control
 {
     #region Usings ...
 
+    using System;
     using System.Collections.Generic;
-
-    using SmokeLounge.AOtomation.Messaging.Messages;
 
     using WeifenLuo.WinFormsUI.Docking;
 
@@ -38,49 +37,51 @@ namespace Script
 
     /// <summary>
     /// </summary>
-    public interface IAOToolerScript : IDockContent
+    public partial class MissionControlSettings : DockContent, IAOToolerScriptSettings
     {
+        #region Fields
+
+        /// <summary>
+        /// </summary>
+        public int NumberOfRolls = 20;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// </summary>
+        public MissionControlSettings()
+        {
+            this.InitializeComponent();
+        }
+
+        #endregion
+
         #region Public Methods and Operators
 
         /// <summary>
         /// </summary>
         /// <returns>
         /// </returns>
-        List<N3MessageType> GetPacketWatcherList();
+        public Dictionary<string, string> Get()
+        {
+            Dictionary<string, string> settings = new Dictionary<string, string>();
+            settings.Add("NumberOfRolls", this.NumberOfRolls.ToString());
+            return settings;
+        }
 
         /// <summary>
         /// </summary>
-        /// <returns>
-        /// </returns>
-        DockContent GetSettingsDock();
-
-        /// <summary>
-        /// </summary>
-        /// <param name="args">
+        /// <param name="settings">
         /// </param>
-        void Initialize(string[] args);
-
-        /// <summary>
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        DockState PreferredDockState();
-
-        /// <summary>
-        /// </summary>
-        /// <param name="type">
-        /// </param>
-        /// <param name="message">
-        /// </param>
-        /// <param name="fullMessage">
-        /// </param>
-        void PushPacket(N3MessageType type, N3Message message, Message fullMessage);
-
-        /// <summary>
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        DockContent[] ReturnDocks();
+        public void Set(Dictionary<string, string> settings)
+        {
+            if (settings.ContainsKey("NumberOfRolls"))
+            {
+                this.NumberOfRolls = int.Parse(settings["NumberOfRolls"]);
+            }
+        }
 
         #endregion
     }
