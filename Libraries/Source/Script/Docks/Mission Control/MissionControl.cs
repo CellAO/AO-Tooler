@@ -28,6 +28,7 @@ namespace Script.Scripts.Mission_Control
 {
     #region Usings ...
 
+    using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Windows.Forms;
@@ -53,6 +54,10 @@ namespace Script.Scripts.Mission_Control
     public partial class MissionControl : DockContent, IAOToolerScript
     {
         #region Fields
+
+        /// <summary>
+        /// </summary>
+        private Filter filterWindow = null;
 
         /// <summary>
         /// </summary>
@@ -133,9 +138,9 @@ namespace Script.Scripts.Mission_Control
                 missionIcon.Image = ItemIcon.instance.Get(qi.MissionIconId);
                 Label l1 = new Label
                            {
-                               Text = "Location: " + this.GetLocationOfMission(qi),
-                               Left = 58,
-                               Top = 5,
+                               Text = "Location: " + this.GetLocationOfMission(qi), 
+                               Left = 58, 
+                               Top = 5, 
                                AutoSize = true
                            };
                 this.panels[i].Controls.Add(l1);
@@ -143,41 +148,42 @@ namespace Script.Scripts.Mission_Control
                 int cashfromItems = 0;
                 foreach (QuestItemShort qis in qi.ItemRewards)
                 {
-                    cashfromItems += new Item(qis.Quality,qis.LowId,qis.HighId).GetAttribute(74); // Value stat
+                    cashfromItems += new Item(qis.Quality, qis.LowId, qis.HighId).GetAttribute(74); // Value stat
                 }
 
                 Label l2 = new Label
                            {
-                               Left = 58,
-                               Top = l1.Top + l1.Height + 5,
-                               AutoSize = true,
-                               Text = "Cash/Cash from Items/XP: " + qi.CashReward+"/"+cashfromItems + "/" + qi.ExperienceReward
+                               Left = 58, 
+                               Top = l1.Top + l1.Height + 5, 
+                               AutoSize = true, 
+                               Text =
+                                   "Cash/Cash from Items/XP: " + qi.CashReward + "/" + cashfromItems + "/"
+                                   + qi.ExperienceReward
                            };
                 this.panels[i].Controls.Add(l2);
-
 
                 int item = 0;
                 foreach (QuestItemShort qis in qi.ItemRewards)
                 {
                     PictureBox itemIcon = new PictureBox
                                           {
-                                              Size = new Size(48, 48),
-                                              Top = 5 + item * 53,
-                                              Left = 380,
+                                              Size = new Size(48, 48), 
+                                              Top = 5 + item * 53, 
+                                              Left = 380, 
                                               Image = ItemLoader.ItemList[qis.HighId].GetIcon()
                                           };
                     this.panels[i].Controls.Add(itemIcon);
                     Label l3 = new Label
                                {
-                                   Top = itemIcon.Top,
-                                   AutoSize = true,
-                                   Text = ItemLoader.ItemList[qis.HighId].ItemName + " (QL " + qis.Quality + ")",
+                                   Top = itemIcon.Top, 
+                                   AutoSize = true, 
+                                   Text = ItemLoader.ItemList[qis.HighId].ItemName + " (QL " + qis.Quality + ")", 
                                    Left = 380 + 48 + 5
                                };
-                    panels[i].Controls.Add(l3);
+                    this.panels[i].Controls.Add(l3);
                     Label l4 = new Label
                                {
-                                   Top = l3.Top + l3.Height + 5,
+                                   Top = l3.Top + l3.Height + 5, 
                                    Text = "Worth: " + ItemLoader.ItemList[qis.HighId].getItemAttribute(61)
                                };
                     item++;
@@ -189,33 +195,6 @@ namespace Script.Scripts.Mission_Control
             this.AlignPanels();
             this.CheckAgainstFilter(mes);
             this.ResumeLayout();
-        }
-
-        private void CheckAgainstFilter(QuestAlternativeMessage mes)
-        {
-            List<string> temp = new List<string>();
-            lock
-                (filterWindow.selectedItems)
-            {
-                temp.AddRange(filterWindow.selectedItems.ToArray());
-            }
-
-            int panelNumber = 0;
-            foreach (QuestInfo qi in mes.QuestInfos)
-            {
-                panels[panelNumber].BackColor = SystemColors.Control;
-                foreach (QuestItemShort qis in qi.ItemRewards)
-                {
-                    foreach (string s in temp)
-                    {
-                        if (ItemLoader.ItemList[qis.HighId].ItemName.ToLower().IndexOf(s)>-1)
-                        {
-                            panels[panelNumber].BackColor = Color.Chartreuse;
-                        }
-                    }
-                }
-                panelNumber++;
-            }
         }
 
         #endregion
@@ -232,15 +211,37 @@ namespace Script.Scripts.Mission_Control
             }
         }
 
-        private int MaxPanelHeight(Panel p)
+        /// <summary>
+        /// </summary>
+        /// <param name="mes">
+        /// </param>
+        private void CheckAgainstFilter(QuestAlternativeMessage mes)
         {
-            int maxY = 0;
-            foreach (Control c in p.Controls)
+            List<string> temp = new List<string>();
+            lock (this.filterWindow.selectedItems)
             {
-                maxY = maxY < c.Top + c.Height ? c.Top + c.Height : maxY;
+                temp.AddRange(this.filterWindow.selectedItems.ToArray());
             }
-            return maxY;
+
+            int panelNumber = 0;
+            foreach (QuestInfo qi in mes.QuestInfos)
+            {
+                this.panels[panelNumber].BackColor = SystemColors.Control;
+                foreach (QuestItemShort qis in qi.ItemRewards)
+                {
+                    foreach (string s in temp)
+                    {
+                        if (ItemLoader.ItemList[qis.HighId].ItemName.ToLower().IndexOf(s) > -1)
+                        {
+                            this.panels[panelNumber].BackColor = Color.Chartreuse;
+                        }
+                    }
+                }
+
+                panelNumber++;
+            }
         }
+
         /// <summary>
         /// </summary>
         private void ClearOldPanels()
@@ -261,29 +262,56 @@ namespace Script.Scripts.Mission_Control
         {
             return PlayfieldList.instance.Get(qi.QuestActions[0].Playfield.Instance).Name
                    + string.Format(
-                       " ({0}, {1})",
-                       qi.QuestActions[0].X.ToString("0.0"),
+                       " ({0}, {1})", 
+                       qi.QuestActions[0].X.ToString("0.0"), 
                        qi.QuestActions[0].Z.ToString("0.0"));
         }
 
-        #endregion
-
-        private Filter filterWindow = null;
-
-        private void MissionControl_DockChanged(object sender, System.EventArgs e)
+        /// <summary>
+        /// </summary>
+        /// <param name="p">
+        /// </param>
+        /// <returns>
+        /// </returns>
+        private int MaxPanelHeight(Panel p)
         {
+            int maxY = 0;
+            foreach (Control c in p.Controls)
+            {
+                maxY = maxY < c.Top + c.Height ? c.Top + c.Height : maxY;
+            }
 
+            return maxY;
         }
 
-        private void MissionControl_DockStateChanged(object sender, System.EventArgs e)
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        private void MissionControl_DockChanged(object sender, EventArgs e)
         {
-            if (filterWindow != null)
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        private void MissionControl_DockStateChanged(object sender, EventArgs e)
+        {
+            if (this.filterWindow != null)
             {
                 return;
             }
-            filterWindow = new Filter();
-            filterWindow.DockHandler.Show(this.DockHandler.DockPanel);
-            filterWindow.DockState = DockState.DockRightAutoHide;
+
+            this.filterWindow = new Filter();
+            this.filterWindow.DockHandler.Show(this.DockHandler.DockPanel);
+            this.filterWindow.DockState = DockState.DockRightAutoHide;
         }
+
+        #endregion
     }
 }

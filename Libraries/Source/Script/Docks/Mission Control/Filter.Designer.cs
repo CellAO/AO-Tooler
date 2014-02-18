@@ -30,7 +30,7 @@
         {
             this.AddItemButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.ItemSelector = new System.Windows.Forms.ComboBox();
+            this.ItemSelector = new System.Windows.Forms.TextBox();
             this.SelectedItemNames = new System.Windows.Forms.ListBox();
             this.RemoveItemButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -58,7 +58,6 @@
             // 
             this.ItemSelector.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ItemSelector.FormattingEnabled = true;
             this.ItemSelector.Location = new System.Drawing.Point(15, 23);
             this.ItemSelector.Name = "ItemSelector";
             this.ItemSelector.Size = new System.Drawing.Size(394, 21);
@@ -112,7 +111,7 @@
 
         private System.Windows.Forms.Button AddItemButton;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox ItemSelector;
+        private System.Windows.Forms.TextBox ItemSelector;
         private System.Windows.Forms.ListBox SelectedItemNames;
         private System.Windows.Forms.Button RemoveItemButton;
     }

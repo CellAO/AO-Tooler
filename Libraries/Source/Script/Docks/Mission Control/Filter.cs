@@ -30,12 +30,7 @@ namespace Script.Docks.Mission_Control
 
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Windows.Forms;
-
-    using CellAO.Core.Items;
-
-    using Utility;
 
     using WeifenLuo.WinFormsUI.Docking;
 
@@ -45,7 +40,14 @@ namespace Script.Docks.Mission_Control
     /// </summary>
     public partial class Filter : DockContent
     {
+        #region Fields
+
+        /// <summary>
+        /// </summary>
         public List<string> selectedItems = new List<string>();
+
+        #endregion
+
         #region Constructors and Destructors
 
         /// <summary>
@@ -53,19 +55,6 @@ namespace Script.Docks.Mission_Control
         public Filter()
         {
             this.InitializeComponent();
-            if (this.ItemSelector.Items.Count > 0)
-            {
-                return;
-            }
-
-            this.ItemSelector.BeginUpdate();
-            ItemSelector.Items.Clear();
-            /*
-            this.ItemSelector.Items.AddRange(ItemNames.instance.Names.ToArray());
-            this.ItemSelector.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            this.ItemSelector.AutoCompleteSource = AutoCompleteSource.ListItems;
-             */
-            this.ItemSelector.EndUpdate();
         }
 
         #endregion
@@ -87,17 +76,20 @@ namespace Script.Docks.Mission_Control
             }
         }
 
-        private void TransferToStatic()
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        private void ItemSelectorKeyPress(object sender, KeyPressEventArgs e)
         {
-            lock (selectedItems)
+            if (e.KeyChar == '\r')
             {
-                selectedItems.Clear();
-                foreach (string s in this.SelectedItemNames.Items)
-                {
-                    selectedItems.Add(s.ToLower());
-                }
+                this.AddItemButtonClick(null, null);
+                this.ItemSelector.Text = string.Empty;
+                e.Handled = true;
             }
-
         }
 
         /// <summary>
@@ -119,16 +111,20 @@ namespace Script.Docks.Mission_Control
             }
         }
 
-        #endregion
-
-        private void ItemSelectorKeyPress(object sender, KeyPressEventArgs e)
+        /// <summary>
+        /// </summary>
+        private void TransferToStatic()
         {
-            if (e.KeyChar == '\r')
+            lock (this.selectedItems)
             {
-                this.AddItemButtonClick(null, null);
-                ItemSelector.Text = "";
-                e.Handled = true;
+                this.selectedItems.Clear();
+                foreach (string s in this.SelectedItemNames.Items)
+                {
+                    this.selectedItems.Add(s.ToLower());
+                }
             }
         }
+
+        #endregion
     }
 }
