@@ -60,6 +60,7 @@
             this.vS2005Theme1 = new WeifenLuo.WinFormsUI.Docking.VS2005Theme();
             this.vS2003Theme1 = new WeifenLuo.WinFormsUI.Docking.VS2003Theme();
             this.connectionTestTimer = new System.Windows.Forms.Timer(this.components);
+            this.statusProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -68,6 +69,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusLabel,
+            this.statusProgress,
             this.connectedLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 432);
             this.statusStrip1.Name = "statusStrip1";
@@ -79,7 +81,7 @@
             // 
             this.statusLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(747, 17);
+            this.statusLabel.Size = new System.Drawing.Size(614, 17);
             this.statusLabel.Spring = true;
             this.statusLabel.Text = "Waiting for AnarchyOnline client";
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -191,6 +193,13 @@
             this.connectionTestTimer.Interval = 3000;
             this.connectionTestTimer.Tick += new System.EventHandler(this.connectionTestTimer_Tick);
             // 
+            // statusProgress
+            // 
+            this.statusProgress.Name = "statusProgress";
+            this.statusProgress.Size = new System.Drawing.Size(100, 16);
+            this.statusProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.statusProgress.Visible = false;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -230,6 +239,7 @@
         private VS2005Theme vS2005Theme1;
         private VS2003Theme vS2003Theme1;
         private System.Windows.Forms.Timer connectionTestTimer;
+        private System.Windows.Forms.ToolStripProgressBar statusProgress;
     }
 }
 

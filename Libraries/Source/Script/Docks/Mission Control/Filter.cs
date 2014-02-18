@@ -55,20 +55,6 @@ namespace Script.Docks.Mission_Control
         public Filter()
         {
             this.InitializeComponent();
-            if (this.ItemSelector.Items.Count > 0)
-            {
-                return;
-            }
-
-            this.ItemSelector.BeginUpdate();
-            this.ItemSelector.Items.Clear();
-
-            /*
-            this.ItemSelector.Items.AddRange(ItemNames.instance.Names.ToArray());
-            this.ItemSelector.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            this.ItemSelector.AutoCompleteSource = AutoCompleteSource.ListItems;
-             */
-            this.ItemSelector.EndUpdate();
         }
 
         #endregion
