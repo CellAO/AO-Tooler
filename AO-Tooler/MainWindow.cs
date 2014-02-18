@@ -278,6 +278,10 @@ namespace AOTooler
                 foreach (DockContent dc in this.dockList)
                 {
                     dc.Update();
+                    ToolStripMenuItem mi = new ToolStripMenuItem(dc.Name);
+                    mi.Checked = !dc.IsHidden;
+                    mi.Click += this.ShowHide;
+                    this.DockMenuItem.DropDown.Items.Add(mi);
                 }
 
                 configFound = true;
@@ -356,6 +360,34 @@ namespace AOTooler
             }
 
             this.PickupTimer.Enabled = true;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender">
+        /// </param>
+        /// <param name="e">
+        /// </param>
+        private void ShowHide(object sender, EventArgs e)
+        {
+            ToolStripMenuItem tsmi = (ToolStripMenuItem)sender;
+
+            foreach (DockContent dock in this.dockList)
+            {
+                if (dock.Name == tsmi.Text)
+                {
+                    if (dock.IsHidden)
+                    {
+                        dock.Show();
+                    }
+                    else
+                    {
+                        dock.Hide();
+                    }
+
+                    tsmi.Checked = !tsmi.Checked;
+                }
+            }
         }
 
         #endregion

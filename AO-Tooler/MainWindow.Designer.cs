@@ -61,6 +61,7 @@
             this.vS2005Theme1 = new WeifenLuo.WinFormsUI.Docking.VS2005Theme();
             this.vS2003Theme1 = new WeifenLuo.WinFormsUI.Docking.VS2003Theme();
             this.connectionTestTimer = new System.Windows.Forms.Timer(this.components);
+            this.DockMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -168,7 +169,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.DockMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(848, 24);
@@ -194,6 +196,12 @@
             // 
             this.connectionTestTimer.Interval = 3000;
             this.connectionTestTimer.Tick += new System.EventHandler(this.ConnectionTestTimerTick);
+            // 
+            // DockMenuItem
+            // 
+            this.DockMenuItem.Name = "DockMenuItem";
+            this.DockMenuItem.Size = new System.Drawing.Size(68, 20);
+            this.DockMenuItem.Text = "Windows";
             // 
             // MainWindow
             // 
@@ -235,6 +243,7 @@
         private VS2003Theme vS2003Theme1;
         private System.Windows.Forms.Timer connectionTestTimer;
         private System.Windows.Forms.ToolStripProgressBar statusProgress;
+        private System.Windows.Forms.ToolStripMenuItem DockMenuItem;
     }
 }
 
