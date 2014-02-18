@@ -206,7 +206,7 @@
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindow";
-            this.Text = "MainWindow";
+            this.Text = "AO-Tooler";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindowFormClosing);
             this.Shown += new System.EventHandler(this.MainWindowShown);
             this.statusStrip1.ResumeLayout(false);

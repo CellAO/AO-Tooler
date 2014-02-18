@@ -69,10 +69,6 @@ namespace Script.Docks.Mission_Control
 
         /// <summary>
         /// </summary>
-        private int iconCounter = 0;
-
-        /// <summary>
-        /// </summary>
         private Point[] missionLocation = new[]
                                           {
                                               new Point(44, 57), new Point(100, 57), new Point(159, 57), 

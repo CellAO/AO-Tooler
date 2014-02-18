@@ -29,6 +29,7 @@ namespace Extractor
     #region Usings ...
 
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
 
     using CellAO.Core.Items;
@@ -55,6 +56,8 @@ namespace Extractor
 
         #region Constructors and Destructors
 
+        private string version = "unknown";
+
         /// <summary>
         /// </summary>
         /// <param name="rdbPath">
@@ -62,6 +65,12 @@ namespace Extractor
         public ItemCollector(string rdbPath)
         {
             this.extractor = new Extractor(rdbPath);
+            if (File.Exists(Path.Combine(rdbPath, "..", "..", "..", "version.id")))
+            {
+                TextReader tr = new StreamReader(Path.Combine(rdbPath, "..", "..", "..", "version.id"));
+                this.version = tr.ReadLine();
+                tr.Close();
+            }
         }
 
         #endregion
@@ -129,10 +138,10 @@ namespace Extractor
                     PlayfieldParser.ParsePlayfield(this.extractor.GetRecordData(1000001, recnum), recnum));
             }
 
-            MessagePackZip.CompressData("icons.dat", string.Empty, icons);
-            MessagePackZip.CompressData("items.dat", string.Empty, items);
-            MessagePackZip.CompressData("playfields.dat", string.Empty, playfields);
-            MessagePackZip.CompressData("itemnames.dat", string.Empty, nameList);
+            MessagePackZip.CompressData("icons.dat", version, icons);
+            MessagePackZip.CompressData("items.dat", version, items);
+            MessagePackZip.CompressData("playfields.dat", version, playfields);
+            MessagePackZip.CompressData("itemnames.dat", version, nameList);
             return items.Count();
         }
 
