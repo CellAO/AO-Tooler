@@ -102,7 +102,7 @@ namespace Utility.Config
                                     new MemoryStream(File.ReadAllBytes("Config.xml")));
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     this._config = new Config();
                 }

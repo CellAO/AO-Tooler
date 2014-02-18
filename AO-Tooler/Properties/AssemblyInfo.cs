@@ -36,11 +36,11 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("AO-Tooler")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("AO-Tooler, THE multi purpose tool for Anarchy Online")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AO-Tooler")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyCopyright("Copyright © 2014 CellAO Team")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
