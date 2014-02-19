@@ -43,6 +43,7 @@ namespace AOTooler
     using Extractor;
 
     using Script;
+    using Script.Settings;
 
     using SmokeLounge.AOtomation.Messaging.Messages;
     using SmokeLounge.AOtomation.Messaging.Serialization;
@@ -287,6 +288,9 @@ namespace AOTooler
                 configFound = true;
             }
 
+            SettingsManager sm = new SettingsManager();
+            sm.Load(DockList);
+
             if (File.Exists("items.dat") && File.Exists("icons.dat") && File.Exists("playfields.dat")
                 && File.Exists("itemnames.dat"))
             {
@@ -372,7 +376,12 @@ namespace AOTooler
         {
             Settings settingsWindow = new Settings();
             settingsWindow.FillSettingsWindow();
-            settingsWindow.ShowDialog();
+            SettingsManager sm = new SettingsManager();
+            sm.Load(DockList);
+            if (settingsWindow.ShowDialog() == DialogResult.Cancel)
+            {
+                sm.Load(DockList);
+            }
         }
 
         /// <summary>

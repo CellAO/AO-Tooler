@@ -24,86 +24,17 @@
 
 #endregion
 
-namespace Script.Docks.Mission_Control
+namespace Script.Attributes
 {
     #region Usings ...
 
     using System;
 
-    using Script.Attributes;
-
-    using WeifenLuo.WinFormsUI.Docking;
-
     #endregion
 
     /// <summary>
     /// </summary>
-    public partial class MissionControlSettings : DockContent, IAOToolerScriptSettings
+    public class SettingsValueAttribute : Attribute
     {
-        #region Constructors and Destructors
-
-        /// <summary>
-        /// </summary>
-        public MissionControlSettings()
-        {
-            this.InitializeComponent();
-            this.NumberOfRolls = 32;
-            this.StringTest = "TESTTEST";
-            this.FloatTest = 9173.26618f;
-        }
-
-        #endregion
-
-        #region Public Properties
-
-        /// <summary>
-        /// </summary>
-        [SettingsValue]
-        public float FloatTest
-        {
-            get
-            {
-                return float.Parse(this.textBox1.Text);
-            }
-
-            set
-            {
-                this.textBox1.Text = value.ToString("0.0000");
-            }
-        }
-
-        /// <summary>
-        /// </summary>
-        [SettingsValue]
-        public int NumberOfRolls
-        {
-            get
-            {
-                return Convert.ToInt32(this.numericUpDown1.Value);
-            }
-
-            set
-            {
-                this.numericUpDown1.Value = value;
-            }
-        }
-
-        /// <summary>
-        /// </summary>
-        [SettingsValue]
-        public string StringTest
-        {
-            get
-            {
-                return this.textBox2.Text;
-            }
-
-            set
-            {
-                this.textBox2.Text = value;
-            }
-        }
-
-        #endregion
     }
 }

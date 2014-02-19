@@ -29,12 +29,11 @@ namespace AOTooler
     #region Usings ...
 
     using System;
-    using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Windows.Forms;
 
     using Script;
+    using Script.Settings;
 
     using WeifenLuo.WinFormsUI.Docking;
 
@@ -65,6 +64,7 @@ namespace AOTooler
             {
                 if (((IAOToolerScript)dc).GetSettingsDock() != null)
                 {
+                    ((IAOToolerScript)dc).GetSettingsDock().CloseButton = false;
                     ((IAOToolerScript)dc).GetSettingsDock().Show(this.dockPanel1, DockState.Document);
                 }
             }
@@ -82,6 +82,7 @@ namespace AOTooler
         /// </param>
         private void CancelClick(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
@@ -93,19 +94,9 @@ namespace AOTooler
         /// </param>
         private void SaveClick(object sender, EventArgs e)
         {
-            TextWriter tw = new StreamWriter("AOTooler Settings.cfg", false);
-            foreach (IAOToolerScript dc in MainWindow.DockList.Where(x => x is IAOToolerScript))
-            {
-                if (dc.GetSettingsDock() != null)
-                {
-                    foreach (KeyValuePair<string, string> kv in ((IAOToolerScriptSettings)dc.GetSettingsDock()).Get())
-                    {
-                        tw.WriteLine(((DockContent)dc).Name + "|" + kv.Key + "=" + kv.Value);
-                    }
-                }
-            }
-
-            tw.Close();
+            SettingsManager sm = new SettingsManager();
+            sm.Save(MainWindow.DockList);
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
 

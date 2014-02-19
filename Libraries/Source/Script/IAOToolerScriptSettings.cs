@@ -26,30 +26,9 @@
 
 namespace Script
 {
-    #region Usings ...
-
-    using System.Collections.Generic;
-
-    #endregion
-
     /// <summary>
     /// </summary>
     public interface IAOToolerScriptSettings
     {
-        #region Public Methods and Operators
-
-        /// <summary>
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        Dictionary<string, string> Get();
-
-        /// <summary>
-        /// </summary>
-        /// <param name="settings">
-        /// </param>
-        void Set(Dictionary<string, string> settings);
-
-        #endregion
     }
 }
