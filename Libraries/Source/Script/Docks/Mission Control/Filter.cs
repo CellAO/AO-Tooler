@@ -30,6 +30,7 @@ namespace Script.Docks.Mission_Control
 
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Windows.Forms;
 
     using WeifenLuo.WinFormsUI.Docking;
@@ -44,7 +45,7 @@ namespace Script.Docks.Mission_Control
 
         /// <summary>
         /// </summary>
-        public List<string> selectedItems = new List<string>();
+        public ObservableCollection<string> selectedItems = null;
 
         #endregion
 
@@ -72,7 +73,7 @@ namespace Script.Docks.Mission_Control
             if (!this.SelectedItemNames.Items.Contains(this.ItemSelector.Text))
             {
                 this.SelectedItemNames.Items.Add(this.ItemSelector.Text);
-                this.TransferToStatic();
+                this.TransferToList();
             }
         }
 
@@ -103,7 +104,7 @@ namespace Script.Docks.Mission_Control
             if (this.SelectedItemNames.SelectedIndex >= 0)
             {
                 this.SelectedItemNames.Items.RemoveAt(this.SelectedItemNames.SelectedIndex);
-                this.TransferToStatic();
+                this.TransferToList();
                 if (this.SelectedItemNames.Items.Count > 0)
                 {
                     this.SelectedItemNames.SelectedIndex = 0;
@@ -113,8 +114,9 @@ namespace Script.Docks.Mission_Control
 
         /// <summary>
         /// </summary>
-        private void TransferToStatic()
+        private void TransferToList()
         {
+            dontUpdate = true;
             lock (this.selectedItems)
             {
                 this.selectedItems.Clear();
@@ -123,8 +125,29 @@ namespace Script.Docks.Mission_Control
                     this.selectedItems.Add(s.ToLower());
                 }
             }
+            dontUpdate = false;
         }
 
         #endregion
+
+        private bool dontUpdate = false;
+
+        public void SetChangedHandler()
+        {
+            this.selectedItems.CollectionChanged += selectedItems_CollectionChanged;
+        }
+
+        void selectedItems_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (dontUpdate)
+            {
+                return;
+            }
+            this.SelectedItemNames.Items.Clear();
+            foreach (string s in (ObservableCollection<string>)sender)
+            {
+                this.SelectedItemNames.Items.Add(s);
+            }
+        }
     }
 }

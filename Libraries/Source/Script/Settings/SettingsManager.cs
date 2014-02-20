@@ -30,6 +30,7 @@ namespace Script.Settings
 
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -79,13 +80,17 @@ namespace Script.Settings
         /// </param>
         public void Load(IEnumerable<DockContent> docks, string filename = "AO-Tooler.cfg")
         {
-            Dictionary<string, string> values = new Dictionary<string, string>();
+            if (!File.Exists(filename))
+            {
+                return;
+            }
+            List<string> values = new List<string>();
             TextReader tr = new StreamReader(filename);
             string line = string.Empty;
             while ((line = tr.ReadLine()) != null)
             {
                 string[] parts = line.Split('=');
-                values.Add(parts[0], parts[1]);
+                values.Add(line);
             }
 
             this.SetSettingsValues(docks, values);
@@ -173,16 +178,20 @@ namespace Script.Settings
 
             foreach (PropertyInfo pi in propertyInfos)
             {
-                if (pi.PropertyType == typeof(List<string>))
+                if (pi.PropertyType == typeof(ObservableCollection<string>))
                 {
-                    foreach (string s in (List<string>)pi.GetValue(dock, null))
+                    int i = 0;
+                    foreach (string s in (ObservableCollection<string>)pi.GetValue(dock, null))
                     {
-                        temp.Add(dock.GetType().FullName + "|" + pi.Name, s);
+                        temp.Add(dock.GetType().FullName + "|" + pi.Name+";"+i, s);
+                        i++;
                     }
                 }
-
-                string val = pi.GetValue(dock, null).ToString();
-                temp.Add(dock.GetType().FullName + "|" + pi.Name, val);
+                else
+                {
+                    string val = pi.GetValue(dock, null).ToString();
+                    temp.Add(dock.GetType().FullName + "|" + pi.Name, val);
+                }
             }
 
             return temp;
@@ -194,7 +203,7 @@ namespace Script.Settings
         /// </param>
         /// <param name="values">
         /// </param>
-        private void SetSettingsValues(IEnumerable<DockContent> docks, Dictionary<string, string> values)
+        private void SetSettingsValues(IEnumerable<DockContent> docks, List<string> values)
         {
             List<IAOToolerScriptSettings> settignsDocks = this.GetSettingsDocks(docks);
             foreach (IAOToolerScriptSettings sDock in settignsDocks)
@@ -202,34 +211,67 @@ namespace Script.Settings
                 IEnumerable<PropertyInfo> props = this.GetSettingsPropertyInfos(sDock.GetType());
                 foreach (PropertyInfo pi in props)
                 {
-                    foreach (KeyValuePair<string, string> kv in values)
+                    foreach (string kv in values)
                     {
-                        if (sDock.GetType().FullName + "|" + pi.Name == kv.Key)
+                        string key = GetPropertyName(kv);
+                        string idx = GetIndexValue(kv);
+                        string value = this.GetValue(kv);
+
+                        if (sDock.GetType().FullName + "|" + pi.Name == key)
                         {
                             if (pi.PropertyType == typeof(int))
                             {
-                                pi.SetValue(sDock, int.Parse(kv.Value));
+                                pi.SetValue(sDock, int.Parse(value));
                             }
 
                             if (pi.PropertyType == typeof(string))
                             {
-                                pi.SetValue(sDock, kv.Value);
+                                pi.SetValue(sDock, value);
                             }
 
                             if (pi.PropertyType == typeof(float))
                             {
-                                pi.SetValue(sDock, float.Parse(kv.Value));
+                                pi.SetValue(sDock, float.Parse(value));
                             }
 
-                            if (pi.PropertyType == typeof(List<string>))
+                            if (pi.PropertyType == typeof(ObservableCollection<string>))
                             {
-                                ((List<string>)pi.GetValue(sDock, null)).Add(kv.Value);
+                                ((ObservableCollection<string>)pi.GetValue(sDock, null)).Add(value);
                             }
                         }
                     }
                 }
             }
         }
+
+        private string GetIndexValue(string kv)
+        {
+            string[] parts = kv.Split('=');
+            if (parts[0].IndexOf(";") > -1)
+            {
+                return parts[0].Split(';')[1];
+            }
+            return "";
+        }
+
+        private string GetPropertyName(string kv)
+        {
+            string[] parts = kv.Split('=');
+            if (parts[0].IndexOf(";") > -1)
+            {
+                return parts[0].Split(';')[0];
+            }
+            return parts[0];
+        }
+
+        private string GetValue(string kv)
+        {
+            string[] parts = kv.Split('=');
+            return parts[1];
+        }
+
+
+        
 
         #endregion
     }

@@ -30,7 +30,9 @@ namespace Script.Docks.Mission_Control
 
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Drawing;
+    using System.Linq;
     using System.Windows.Forms;
 
     using CellAO.Core.Items;
@@ -128,6 +130,8 @@ namespace Script.Docks.Mission_Control
             this.panels[4] = this.panel5;
             this.filterWindow = new Filter();
             this.missionControlSettings = new MissionControlSettings();
+            this.filterWindow.selectedItems = this.missionControlSettings.StringList;
+            this.filterWindow.SetChangedHandler();
         }
 
         /// <summary>

@@ -29,6 +29,7 @@ namespace Script.Docks.Mission_Control
     #region Usings ...
 
     using System;
+    using System.Collections.ObjectModel;
 
     using Script.Attributes;
 
@@ -50,7 +51,11 @@ namespace Script.Docks.Mission_Control
             this.NumberOfRolls = 32;
             this.StringTest = "TESTTEST";
             this.FloatTest = 9173.26618f;
+            this.StringList = new ObservableCollection<string>();
+            this.StringList.Add("test1");
+            this.StringList.Add("Test2");
         }
+
 
         #endregion
 
@@ -103,6 +108,9 @@ namespace Script.Docks.Mission_Control
                 this.textBox2.Text = value;
             }
         }
+
+        [SettingsValue]
+        public ObservableCollection<string> StringList { get; set; }
 
         #endregion
     }
